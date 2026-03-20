@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model News {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  description  String?  @db.Text
+  image        String?
+  source       String
+  category     String   @default("REGIONAL")
+  url          String
+  publishedAt  DateTime @map("published_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([publishedAt])
+  @@index([slug])
+  @@map("news")
+}
+
+model Program {
+  id          String @id @default(uuid())
+  title       String
+  dayOfWeek   Int    @map("day_of_week") // 0-6 (Sun-Sat)
+  startTime   String @map("start_time")  // HH:mm
+  endTime     String @map("end_time")    // HH:mm
+  hostName    String @map("host_name")
+
+  @@map("programs")
+}
+
+model Host {
+  id        String  @id @default(uuid())
+  name      String
+  bio       String? @db.Text
+  avatar    String?
+  
+  @@map("hosts")
+}
+
+model Sponsor {
+  id      String  @id @default(uuid())
+  name    String
+  logo    String?
+  website String?
+  
+  @@map("sponsors")
+}
+
+model Setting {
+  id            String  @id @default(uuid())
+  streamUrl     String? @map("stream_url")
+  instagramUrl  String? @map("instagram_url")
+  contactEmail  String? @map("contact_email")
+
+  @@map("settings")
+}
+
+model RssFeed {
+  id        String  @id @default(uuid())
+  name      String
+  url       String  @unique
+  category  String  @default("REGIONAL")
+  isActive  Boolean @default(true) @map("is_active")
+  
+  @@map("rss_feeds")
+}
