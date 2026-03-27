@@ -1,9 +1,10 @@
 import { getNewsBySlug, getLatestNews } from '@/lib/services/data';
 import { notFound } from 'next/navigation';
+import { NewsItem } from '@/lib/types';
 
 export async function generateStaticParams() {
-  const news = await getLatestNews(50);
-  return news.map((item: { slug: string }) => ({
+  const news = await getLatestNews(50) as NewsItem[];
+  return news.map((item: NewsItem) => ({
     slug: item.slug,
   }));
 }

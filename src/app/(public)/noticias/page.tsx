@@ -1,7 +1,8 @@
 import { getLatestNews } from '@/lib/services/data';
+import { NewsItem } from '@/lib/types';
 
 export default async function NoticiasPage() {
-  const news = await getLatestNews(40);
+  const news = await getLatestNews(40) as NewsItem[];
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -12,9 +13,9 @@ export default async function NoticiasPage() {
             Acompanhe o que é destaque na região, no Brasil e no mundo.
           </p>
         </div>
-
+ 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {news.map((item: any) => (
+          {news.map((item: NewsItem) => (
             <div key={item.id} className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col border border-gray-100 hover:shadow-md transition-shadow">
               <div className="h-48 bg-gray-200 relative">
                 {item.image ? (
