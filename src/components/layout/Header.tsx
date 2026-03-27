@@ -19,7 +19,12 @@ export default function Header() {
         }
     });
 
-    const navLinks = [
+    interface NavLink {
+        name: string;
+        href: string;
+    }
+
+    const navLinks: NavLink[] = [
         { name: "Início", href: "/" },
         { name: "Notícias", href: "/noticias" },
         { name: "Programação", href: "/#programacao" },

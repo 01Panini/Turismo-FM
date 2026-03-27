@@ -46,7 +46,7 @@ export async function fetchFeed(url: string, sourceName: string) {
 
   const feed = await fetchWithTimeout();
 
-  return (feed.items as ParsedFeedItem[]).map((item) => {
+  return (feed.items as ParsedFeedItem[]).map((item: ParsedFeedItem) => {
     // 1. Fallback Image Strategy
     let imageUrl = '/images/news-placeholder.svg';
     

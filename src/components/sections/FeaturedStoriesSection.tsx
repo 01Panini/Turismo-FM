@@ -4,20 +4,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
-type NewsType = {
-    id: string;
-    title: string;
-    slug: string;
-    description: string | null;
-    image: string | null;
-    source: string;
-    url: string;
-    publishedAt: Date;
-    createdAt: Date;
-};
+import { NewsItem } from "@/lib/types";
 
 type FeaturedStoriesSectionProps = {
-    news: NewsType[];
+    news: NewsItem[];
     title?: string;
     subtitle?: string;
 };

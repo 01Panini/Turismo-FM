@@ -50,7 +50,7 @@ export async function GET(request: Request) {
     const json = await res.json() as InstagramResponse;
     const edges = json?.data?.user?.edge_owner_to_timeline_media?.edges || [];
     
-    const posts = edges.map((edge) => ({
+    const posts = edges.map((edge: InstagramEdge) => ({
       id: edge.node.id,
       url: `https://www.instagram.com/p/${edge.node.shortcode}/`,
       imageUrl: edge.node.display_url,

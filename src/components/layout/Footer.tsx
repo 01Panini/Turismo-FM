@@ -6,7 +6,12 @@ type FooterProps = {
     contactEmail?: string | null;
 };
 
-const quickLinks = [
+interface QuickLink {
+    label: string;
+    href: string;
+}
+
+const quickLinks: QuickLink[] = [
     { label: "Início", href: "/" },
     { label: "Notícias", href: "/noticias" },
     { label: "Programação", href: "/#programacao" },

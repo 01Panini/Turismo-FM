@@ -1,8 +1,9 @@
 import { getSponsors } from '@/lib/services/data';
 import { createSponsor, deleteSponsor } from '@/lib/actions/admin';
+import { Sponsor } from '@/lib/types';
 
 export default async function SponsorsPage() {
-  const sponsors = await getSponsors();
+  const sponsors: Sponsor[] = await getSponsors();
 
   return (
     <div>
@@ -31,7 +32,7 @@ export default async function SponsorsPage() {
 
       <div className="bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden rounded-2xl border border-gray-100">
         <ul className="divide-y divide-gray-100">
-          {sponsors.map((s) => (
+          {sponsors.map((s: Sponsor) => (
             <li key={s.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-slate-50 transition-colors">
               <div className="flex items-center gap-6">
                 {s.logo ? (

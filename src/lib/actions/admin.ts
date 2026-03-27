@@ -2,13 +2,14 @@
 
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
+import { Host, NewsItem, RssFeed, Setting, Sponsor } from '@/lib/types'
 
-function getRequiredTextValue(formData: FormData, field: string) {
+function getRequiredTextValue(formData: FormData, field: string): string {
   const value = formData.get(field);
   return typeof value === 'string' ? value.trim() : '';
 }
 
-function getOptionalTextValue(formData: FormData, field: string) {
+function getOptionalTextValue(formData: FormData, field: string): string | null {
   const value = formData.get(field);
   if (typeof value !== 'string') {
     return null;
@@ -19,16 +20,17 @@ function getOptionalTextValue(formData: FormData, field: string) {
 }
 
 // ----- Settings Actions -----
-export async function getAdminSettings() {
+export async function getAdminSettings(): Promise<Setting | null> {
   try {
-    return await prisma.setting.findFirst();
+    const settings = await prisma.setting.findFirst();
+    return settings as Setting | null;
   } catch {
     console.warn("DB not connected, returning null for getAdminSettings");
     return null;
   }
 }
 
-export async function updateSettings(data: { streamUrl?: string, instagramUrl?: string, contactEmail?: string}) {
+export async function updateSettings(data: { streamUrl?: string, instagramUrl?: string, contactEmail?: string}): Promise<void> {
   try {
     const existing = await prisma.setting.findFirst();
     if (existing) {
@@ -49,15 +51,16 @@ export async function updateSettings(data: { streamUrl?: string, instagramUrl?: 
 }
 
 // ----- Sponsor Actions -----
-export async function getSponsors() {
+export async function getSponsors(): Promise<Sponsor[]> {
   try {
-    return await prisma.sponsor.findMany();
+    const sponsors = await prisma.sponsor.findMany();
+    return sponsors as Sponsor[];
   } catch {
     return [];
   }
 }
 
-export async function createSponsor(formData: FormData) {
+export async function createSponsor(formData: FormData): Promise<void> {
   const name = getRequiredTextValue(formData, 'name');
   const logo = getOptionalTextValue(formData, 'logo');
   const website = getOptionalTextValue(formData, 'website');
@@ -78,7 +81,7 @@ export async function createSponsor(formData: FormData) {
   revalidatePath('/admin/sponsors');
 }
 
-export async function deleteSponsor(id: string) {
+export async function deleteSponsor(id: string): Promise<void> {
   try {
     await prisma.sponsor.delete({ where: { id }});
   } catch (error) {
@@ -90,15 +93,16 @@ export async function deleteSponsor(id: string) {
 }
 
 // ----- Host Actions -----
-export async function getHosts() {
+export async function getHosts(): Promise<Host[]> {
   try {
-    return await prisma.host.findMany();
+    const hosts = await prisma.host.findMany();
+    return hosts as Host[];
   } catch {
     return [];
   }
 }
 
-export async function createHost(formData: FormData) {
+export async function createHost(formData: FormData): Promise<void> {
   const name = getRequiredTextValue(formData, 'name');
   const bio = getOptionalTextValue(formData, 'bio');
   const avatar = getOptionalTextValue(formData, 'avatar');
@@ -119,7 +123,7 @@ export async function createHost(formData: FormData) {
   revalidatePath('/admin/hosts');
 }
 
-export async function deleteHost(id: string) {
+export async function deleteHost(id: string): Promise<void> {
   try {
     await prisma.host.delete({ where: { id }});
   } catch (error) {
@@ -131,7 +135,7 @@ export async function deleteHost(id: string) {
 }
 
 // ----- Program Actions -----
-export async function createProgram(formData: FormData) {
+export async function createProgram(formData: FormData): Promise<void> {
   const title = formData.get('title') as string;
   const dayOfWeek = parseInt(formData.get('dayOfWeek') as string, 10);
   const startTime = formData.get('startTime') as string;
@@ -150,7 +154,7 @@ export async function createProgram(formData: FormData) {
   revalidatePath('/admin/programming');
 }
 
-export async function deleteProgram(id: string) {
+export async function deleteProgram(id: string): Promise<void> {
   try {
     await prisma.program.delete({ where: { id }});
   } catch (error) {
@@ -161,29 +165,31 @@ export async function deleteProgram(id: string) {
 }
 
 // ----- News Actions -----
-export async function getNews(limit: number = 10) {
+export async function getNews(limit: number = 10): Promise<NewsItem[]> {
   try {
-    return await prisma.news.findMany({
+    const news = await prisma.news.findMany({
       orderBy: { publishedAt: 'desc' },
       take: limit
     });
+    return news as unknown as NewsItem[];
   } catch {
     return [];
   }
 }
 
 // ----- RSS Feed Actions -----
-export async function getRssFeeds() {
+export async function getRssFeeds(): Promise<RssFeed[]> {
   try {
-    return await prisma.rssFeed.findMany({
+    const feeds = await prisma.rssFeed.findMany({
       orderBy: { name: 'asc' }
     });
+    return feeds as RssFeed[];
   } catch {
     return [];
   }
 }
 
-export async function createRssFeed(formData: FormData) {
+export async function createRssFeed(formData: FormData): Promise<void> {
   const name = formData.get('name') as string;
   const url = formData.get('url') as string;
   const category = formData.get('category') as string;
@@ -199,7 +205,7 @@ export async function createRssFeed(formData: FormData) {
   revalidatePath('/admin/rss');
 }
 
-export async function deleteRssFeed(id: string) {
+export async function deleteRssFeed(id: string): Promise<void> {
   try {
     await prisma.rssFeed.delete({ where: { id }});
   } catch (error) {

@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
       description: article.description,
       images: article.image ? [article.image] : [],
       type: 'article',
-      publishedTime: article.publishedAt.toISOString(),
+      publishedTime: new Date(article.publishedAt).toISOString(),
     },
     twitter: {
       card: 'summary_large_image',

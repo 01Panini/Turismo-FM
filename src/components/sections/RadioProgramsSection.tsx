@@ -3,9 +3,9 @@
 import { motion } from "framer-motion";
 import { Clock, User } from "lucide-react";
 
-type ProgramType = { id: string; title: string; dayOfWeek: number; startTime: string; endTime: string; hostName: string; live?: boolean; };
+import { Program } from "@/lib/types";
 
-const fallbackPrograms: ProgramType[] = [
+const fallbackPrograms: Program[] = [
     { id: '1', title: "Canta Viola", startTime: "05:00", endTime: "08:00", hostName: "Ivosmar Santana", dayOfWeek: 1, live: false },
     { id: '2', title: "Turismo Hits", startTime: "08:00", endTime: "11:00", hostName: "Wellington Vilela", dayOfWeek: 1, live: true },
     { id: '3', title: "Programação Musical", startTime: "11:00", endTime: "13:00", hostName: "Turismo FM", dayOfWeek: 1, live: false },
@@ -14,7 +14,7 @@ const fallbackPrograms: ProgramType[] = [
     { id: '6', title: "Love Songs", startTime: "22:00", endTime: "05:00", hostName: "Turismo FM", dayOfWeek: 1, live: false },
 ];
 
-export default function RadioProgramsSection({ programs }: { programs: ProgramType[] }) {
+export default function RadioProgramsSection({ programs }: { programs: Program[] }) {
     const daysMap = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
     const displayedPrograms = programs.length > 0 ? programs : fallbackPrograms;
 

@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getLatestNews } from '@/lib/services/data'
+import { NewsItem } from '@/lib/types'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://turismofm.com.br'
@@ -7,9 +8,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Fetch the latest 500 news articles for the sitemap
   const latestNews = await getLatestNews(500)
 
-  const newsUrls = latestNews.map((news) => ({
+  const newsUrls = latestNews.map((news: NewsItem) => ({
     url: `${baseUrl}/noticias/${news.slug}`,
-    lastModified: news.publishedAt,
+    lastModified: new Date(news.publishedAt),
     changeFrequency: 'never' as const,
     priority: 0.8,
   }))

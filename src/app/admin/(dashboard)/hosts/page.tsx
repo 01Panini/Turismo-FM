@@ -1,8 +1,9 @@
 import { getHosts } from '@/lib/services/data';
 import { createHost, deleteHost } from '@/lib/actions/admin';
+import { Host } from '@/lib/types';
 
 export default async function HostsPage() {
-  const hosts = await getHosts();
+  const hosts: Host[] = await getHosts();
 
   return (
     <div>
@@ -31,7 +32,7 @@ export default async function HostsPage() {
 
       <div className="bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden rounded-2xl border border-gray-100">
         <ul className="divide-y divide-gray-100">
-          {hosts.map((h) => (
+          {hosts.map((h: Host) => (
             <li key={h.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-slate-50 transition-colors">
               <div className="flex items-center gap-6">
                 {h.avatar ? (

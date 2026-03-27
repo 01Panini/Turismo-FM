@@ -2,16 +2,16 @@
 
 import { motion } from "framer-motion";
 
-type HostType = { id: string; name: string; bio: string | null; avatar: string | null; };
+import { Host } from "@/lib/types";
 
-const fallbackHosts: HostType[] = [
+const fallbackHosts: Host[] = [
     { id: '1', name: "Wellington Vilela", bio: "No comando do Turismo Hits, conduzindo o melhor conteúdo e energia para todas as manhãs.", avatar: "https://picsum.photos/seed/host1/400/400" },
     { id: '2', name: "Gisele Duarte", bio: "Apresentando o programa A Tarde é Nossa! com muita animação, interatividade e os melhores hits.", avatar: "https://picsum.photos/seed/host2/400/400" },
     { id: '3', name: "Frank Cordão", bio: "Comandando o Território Sertanejo, o espaço perfeito para os seus finais de tarde serem acompanhados da boa música caipira.", avatar: "https://picsum.photos/seed/host3/400/400" },
     { id: '4', name: "Ivosmar Santana", bio: "Trazendo as raízes do Brasil pra você logo bem cedinho, através do programa Canta Viola.", avatar: "https://picsum.photos/seed/host4/400/400" },
 ];
 
-export default function HostsSection({ hosts }: { hosts: HostType[] }) {
+export default function HostsSection({ hosts }: { hosts: Host[] }) {
     const displayed = hosts.length > 0 ? hosts : fallbackHosts;
 
     return (

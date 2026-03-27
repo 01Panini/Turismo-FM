@@ -2,15 +2,15 @@
 
 import { motion } from "framer-motion";
 
-type SponsorType = { id: string; name: string; logo: string | null; website: string | null; };
+import { Sponsor } from "@/lib/types";
 
-const fallbackSponsors = [
+const fallbackSponsors: Sponsor[] = [
     { name: "Banco Local", logo: null, id: '1', website: null },
     { name: "Supermercados Alfa", logo: null, id: '2', website: null },
     { name: "Farmácia Saúde", logo: null, id: '3', website: null },
 ];
 
-export default function SponsorsSection({ sponsors }: { sponsors: SponsorType[] }) {
+export default function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
     const displayed = sponsors.length > 0 ? sponsors : fallbackSponsors;
 
     return (

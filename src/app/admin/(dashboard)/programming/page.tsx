@@ -1,8 +1,9 @@
 import { getPrograms } from '@/lib/services/data';
 import { createProgram, deleteProgram } from '@/lib/actions/admin';
+import { Program } from '@/lib/types';
 
 export default async function ProgrammingPage() {
-  const programs = await getPrograms();
+  const programs: Program[] = await getPrograms();
   const daysMap = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
   return (
@@ -24,7 +25,7 @@ export default async function ProgrammingPage() {
           <div>
             <label className="block text-sm font-semibold text-slate-700 uppercase tracking-wide">Dia da Semana</label>
             <select name="dayOfWeek" className="mt-2 block w-full rounded-xl border-gray-200 bg-slate-50 shadow-inner focus:border-primary focus:ring-primary focus:bg-white sm:text-sm p-4 border transition-colors text-slate-900">
-              {daysMap.map((d, i) => <option key={i} value={i}>{d}</option>)}
+              {daysMap.map((d: string, i: number) => <option key={i} value={i}>{d}</option>)}
             </select>
           </div>
           <div className="flex gap-4">
@@ -46,7 +47,7 @@ export default async function ProgrammingPage() {
       {/* List */}
       <div className="bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden rounded-2xl border border-gray-100">
         <ul className="divide-y divide-gray-100">
-          {programs.map((p) => (
+          {programs.map((p: Program) => (
             <li key={p.id} className="p-6 flex items-center justify-between hover:bg-slate-50 transition-colors">
               <div>
                 <p className="text-lg font-display font-medium text-gray-900">{p.title} <span className="text-gray-500 font-normal text-base">com {p.hostName}</span></p>

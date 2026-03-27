@@ -1,8 +1,8 @@
-import { getRssFeeds } from '@/lib/actions/admin';
-import { createRssFeed, deleteRssFeed } from '@/lib/actions/admin';
+import { getRssFeeds, createRssFeed, deleteRssFeed } from '@/lib/actions/admin';
+import { RssFeed } from '@/lib/types';
 
 export default async function RssFeedsPage() {
-  const feeds = await getRssFeeds();
+  const feeds: RssFeed[] = await getRssFeeds();
 
   return (
     <div>
@@ -34,7 +34,7 @@ export default async function RssFeedsPage() {
 
       <div className="bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden rounded-2xl border border-gray-100">
         <ul className="divide-y divide-gray-100">
-          {feeds.map((f: { id: string, name: string, url: string, category: string, isActive: boolean }) => (
+          {feeds.map((f: RssFeed) => (
             <li key={f.id} className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:bg-slate-50 transition-colors">
               <div className="flex items-center gap-6">
                 <div>
