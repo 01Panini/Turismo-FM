@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Instagram, Twitter, Radio } from "lucide-react";
 
 type HostType = { id: string; name: string; bio: string | null; avatar: string | null; };
 
@@ -49,11 +48,9 @@ export default function HostsSection({ hosts }: { hosts: HostType[] }) {
                             <h3 className="text-2xl font-display font-semibold transition-colors group-hover:text-primary mb-1 text-white">{host.name}</h3>
                             <p className="text-primary text-sm tracking-widest uppercase mb-4">Locutor</p>
                             <p className="text-sm text-balance leading-relaxed text-white/50 mb-6 flex-grow">{host.bio || "Locutor da Turismo FM"}</p>
-                            
-                            <div className="flex justify-center gap-4 text-white/50 mt-auto">
-                                <a href="#" aria-label="Instagram" className="hover:text-primary cursor-pointer transition-colors"><Instagram size={18} /></a>
-                                <a href="#" aria-label="Twitter" className="hover:text-primary cursor-pointer transition-colors"><Twitter size={18} /></a>
-                                <a href="#" aria-label="Radio" className="hover:text-primary cursor-pointer transition-colors"><Radio size={18} /></a>
+
+                            <div className="mt-auto rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+                                No ar na Turismo FM
                             </div>
                         </motion.div>
                     ))}

@@ -24,7 +24,7 @@ export default function AdminLogin() {
       } else if (result?.success) {
         router.push('/admin/stream');
       }
-    } catch (err) {
+    } catch {
       setError('Ocorreu um erro no servidor.');
       setLoading(false);
     }

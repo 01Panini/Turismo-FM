@@ -6,20 +6,19 @@ export function useStreamMetadata(streamUrl: string) {
   useEffect(() => {
     if (!streamUrl) return;
 
-    // Convert "https://stm14.xcast.com.br:11104/;" to "https://stm14.xcast.com.br:11104/stats?sid=1&json=1"
-    const baseUrl = streamUrl.replace(/\/;?$/, '');
-    const apiUrl = `${baseUrl}/stats?sid=1&json=1`;
+    // Fetch metadata through internal proxy to avoid CORS
 
     const fetchMetadata = async () => {
       try {
-        const res = await fetch(apiUrl);
+        const proxyUrl = `/api/stream-metadata?url=${encodeURIComponent(streamUrl)}`;
+        const res = await fetch(proxyUrl);
         if (!res.ok) return;
         const data = await res.json();
         if (data && data.songtitle) {
           setSongTitle(data.songtitle);
         }
       } catch (err) {
-        console.error("Failed to fetch stream metadata", err);
+        console.error("Failed to fetch stream metadata via proxy", err);
       }
     };
 

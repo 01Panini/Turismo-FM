@@ -59,24 +59,26 @@ export default async function NewsArticlePage({ params }: { params: { slug: stri
           </div>
         )}
 
-        <div className="prose prose-blue prose-lg md:prose-xl mx-auto text-gray-800 leading-relaxed mb-12">
+        <div className="mx-auto mb-12 text-lg leading-relaxed text-gray-800 md:text-xl">
           {/* We use description here since we don't store full content in the DB, just the sanitized snippet */}
-          <p>{article.description}</p>
+          <p>{article.description || 'Resumo não disponível.'}</p>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-gray-200 text-center">
-          <p className="text-gray-600 mb-6 font-medium text-lg">
-            Quer ler os detalhes completos na fonte original?
-          </p>
-          <a 
-            href={article.url} 
-            target="_blank" 
-            rel="noopener noreferrer" 
-            className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-lg text-white bg-black hover:bg-gray-800 shadow-md hover:shadow-lg transition-all"
-          >
-            Acessar matéria no parceiro {article.source} ↗
-          </a>
-        </div>
+        {article.url && (
+          <div className="mt-16 pt-8 border-t border-gray-200 text-center">
+            <p className="text-gray-600 mb-6 font-medium text-lg">
+              Quer ler os detalhes completos na fonte original?
+            </p>
+            <a 
+              href={article.url} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-lg text-white bg-black hover:bg-gray-800 shadow-md hover:shadow-lg transition-all"
+            >
+              Acessar matéria no parceiro {article.source} ↗
+            </a>
+          </div>
+        )}
       </div>
     </article>
   );

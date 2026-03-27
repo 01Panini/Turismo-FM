@@ -4,6 +4,9 @@ import { motion } from "framer-motion";
 import { ArrowRight, Mail, Phone } from "lucide-react";
 
 export default function CallToActionSection() {
+    const commercialEmail = "opec@turismofm.com.br";
+    const commercialPhone = "+5564981172332";
+
     return (
         <section id="anuncie" className="py-32 px-6 container mx-auto bg-background relative overflow-hidden">
             <div className="absolute inset-0 z-0">
@@ -32,13 +35,21 @@ export default function CallToActionSection() {
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-6 items-center justify-center">
-                        <button className="group relative w-full sm:w-auto px-8 py-4 bg-primary text-black font-bold uppercase tracking-wider rounded-full hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_40px_rgba(255,184,0,0.3)] hover:shadow-[0_0_50px_rgba(255,184,0,0.5)] flex items-center justify-center gap-3">
+                        <a
+                            href={`mailto:${commercialEmail}?subject=Quero%20anunciar%20na%20Turismo%20FM`}
+                            className="group relative w-full sm:w-auto px-8 py-4 bg-primary text-black font-bold uppercase tracking-wider rounded-full hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_40px_rgba(255,184,0,0.3)] hover:shadow-[0_0_50px_rgba(255,184,0,0.5)] flex items-center justify-center gap-3"
+                        >
                             Falar com Comercial
                             <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-                        </button>
-                        <button className="w-full sm:w-auto px-8 py-4 glass-panel border border-white/10 text-white font-bold uppercase tracking-wider rounded-full hover:bg-white/5 transition-all duration-300 flex items-center justify-center gap-3">
-                            Baixar Mídia Kit
-                        </button>
+                        </a>
+                        <a
+                            href={`https://wa.me/${commercialPhone.replace(/\D/g, "")}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="w-full sm:w-auto px-8 py-4 glass-panel border border-white/10 text-white font-bold uppercase tracking-wider rounded-full hover:bg-white/5 transition-all duration-300 flex items-center justify-center gap-3"
+                        >
+                            Falar no WhatsApp
+                        </a>
                     </div>
 
                     <div className="mt-16 flex flex-wrap justify-center gap-8 text-sm text-muted font-medium">

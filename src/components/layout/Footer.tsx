@@ -1,6 +1,20 @@
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import Link from "next/link";
+import { Instagram, Mail } from "lucide-react";
 
-export default function Footer() {
+type FooterProps = {
+    instagramUrl?: string | null;
+    contactEmail?: string | null;
+};
+
+const quickLinks = [
+    { label: "Início", href: "/" },
+    { label: "Notícias", href: "/noticias" },
+    { label: "Programação", href: "/#programacao" },
+    { label: "Equipe", href: "/#equipe" },
+    { label: "Patrocinadores", href: "/#patrocinadores" },
+];
+
+export default function Footer({ instagramUrl, contactEmail }: FooterProps) {
     return (
         <footer className="border-t border-white/5 bg-background pt-16 pb-8 px-6 overflow-hidden relative">
             <div className="container mx-auto">
@@ -17,38 +31,57 @@ export default function Footer() {
                     <div>
                         <h4 className="font-bold tracking-widest uppercase text-xs text-white mb-6">Explore</h4>
                         <ul className="space-y-4 text-muted font-medium text-sm">
-                            <li><a href="#" className="hover:text-primary transition-colors">Programação</a></li>
-                            <li><a href="#" className="hover:text-primary transition-colors">Notícias</a></li>
-                            <li><a href="#" className="hover:text-primary transition-colors">Comunidade</a></li>
-                            <li><a href="#" className="hover:text-primary transition-colors">Locutores</a></li>
+                            {quickLinks.map((link) => (
+                                <li key={link.href}>
+                                    <Link href={link.href} className="hover:text-primary transition-colors">
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
                     <div>
-                        <h4 className="font-bold tracking-widest uppercase text-xs text-white mb-6">Acompanhe</h4>
-                        <div className="flex gap-4">
-                            <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:border-primary hover:text-black transition-all">
-                                <Instagram size={18} />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:border-primary hover:text-black transition-all">
-                                <Facebook size={18} />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:border-primary hover:text-black transition-all">
-                                <Twitter size={18} />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-primary hover:border-primary hover:text-black transition-all">
-                                <Youtube size={18} />
-                            </a>
+                        <h4 className="font-bold tracking-widest uppercase text-xs text-white mb-6">Contato</h4>
+                        <div className="space-y-4 text-sm text-muted font-medium">
+                            {instagramUrl && (
+                                <a
+                                    href={instagramUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="flex items-center gap-3 hover:text-primary transition-colors"
+                                >
+                                    <span className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center">
+                                        <Instagram size={18} />
+                                    </span>
+                                    Instagram oficial
+                                </a>
+                            )}
+                            {contactEmail && (
+                                <a
+                                    href={`mailto:${contactEmail}`}
+                                    className="flex items-center gap-3 hover:text-primary transition-colors"
+                                >
+                                    <span className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center">
+                                        <Mail size={18} />
+                                    </span>
+                                    {contactEmail}
+                                </a>
+                            )}
+                            {!instagramUrl && !contactEmail && (
+                                <p className="text-muted/80">
+                                    Atendimento e redes sociais em atualização.
+                                </p>
+                            )}
                         </div>
                     </div>
                 </div>
 
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted text-center md:text-left relative z-10">
                     <p>© {new Date().getFullYear()} Turismo FM 90.3. Todos os direitos reservados.</p>
-                    <div className="flex gap-6 font-medium">
-                        <a href="#" className="hover:text-white transition-colors">Política de Privacidade</a>
-                        <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
-                    </div>
+                    <p className="font-medium">
+                        Goiatuba-GO, rádio, notícias e comunidade em um só lugar.
+                    </p>
                 </div>
 
                 {/* Large Background Typography */}

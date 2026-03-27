@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
@@ -39,15 +40,13 @@ export default function FeaturedStoriesSection({ news, title = "Notícias que im
                     </h2>
                 </motion.div>
 
-                <motion.button
+                <Link
+                    href="/noticias"
                     className="hidden md:flex items-center gap-2 text-muted hover:text-white transition-colors group"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
                 >
                     Ver todas as notícias
                     <ArrowUpRight className="transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </motion.button>
+                </Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -63,16 +62,15 @@ export default function FeaturedStoriesSection({ news, title = "Notícias que im
                             className={`group relative overflow-hidden rounded-3xl ${featured ? 'md:col-span-8 md:row-span-2 min-h-[500px]' : 'md:col-span-4 min-h-[240px]'}`}
                         >
                             <div className="absolute inset-0 bg-surface">
-                                {/* @ts-ignore */}
                                 <img
-                                    src={story.image || "https://images.unsplash.com/photo-1519055548599-6d4d129508c4?w=800&q=80"}
+                                    src={story.image || "/images/news-placeholder.svg"}
                                     alt={story.title}
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B0C10] via-[#0B0C10]/60 to-transparent" />
                             </div>
 
-                            <a href={`/noticias/${story.slug}`} className="absolute inset-0 z-20"></a>
+                            <Link href={`/noticias/${story.slug}`} className="absolute inset-0 z-20" aria-label={story.title} />
 
                             <div className="absolute inset-0 p-6 flex flex-col justify-end z-10 pointer-events-none">
                                 <div className="flex items-center gap-3 mb-3">

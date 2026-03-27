@@ -95,10 +95,10 @@ export async function getLatestNews(limit: number = 10) {
       });
     } catch {
       console.warn("DB Error on getLatestNews, falling back to mock");
-      return MOCK_NEWS;
+      return MOCK_NEWS.slice(0, limit);
     }
   }
-  return MOCK_NEWS;
+  return MOCK_NEWS.slice(0, limit);
 }
 
 export async function getNewsBySlug(slug: string) {

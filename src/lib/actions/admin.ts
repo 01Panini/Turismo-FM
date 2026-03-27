@@ -3,6 +3,21 @@
 import prisma from '@/lib/db'
 import { revalidatePath } from 'next/cache'
 
+function getRequiredTextValue(formData: FormData, field: string) {
+  const value = formData.get(field);
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function getOptionalTextValue(formData: FormData, field: string) {
+  const value = formData.get(field);
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
 // ----- Settings Actions -----
 export async function getAdminSettings() {
   try {
@@ -42,6 +57,38 @@ export async function getSponsors() {
   }
 }
 
+export async function createSponsor(formData: FormData) {
+  const name = getRequiredTextValue(formData, 'name');
+  const logo = getOptionalTextValue(formData, 'logo');
+  const website = getOptionalTextValue(formData, 'website');
+
+  if (!name) {
+    return;
+  }
+
+  try {
+    await prisma.sponsor.create({
+      data: { name, logo, website },
+    });
+  } catch (error) {
+    console.warn("DB error on createSponsor - ignoring update", error);
+  }
+
+  revalidatePath('/');
+  revalidatePath('/admin/sponsors');
+}
+
+export async function deleteSponsor(id: string) {
+  try {
+    await prisma.sponsor.delete({ where: { id }});
+  } catch (error) {
+    console.warn("DB error on deleteSponsor - ignoring update", error);
+  }
+
+  revalidatePath('/');
+  revalidatePath('/admin/sponsors');
+}
+
 // ----- Host Actions -----
 export async function getHosts() {
   try {
@@ -49,6 +96,38 @@ export async function getHosts() {
   } catch {
     return [];
   }
+}
+
+export async function createHost(formData: FormData) {
+  const name = getRequiredTextValue(formData, 'name');
+  const bio = getOptionalTextValue(formData, 'bio');
+  const avatar = getOptionalTextValue(formData, 'avatar');
+
+  if (!name) {
+    return;
+  }
+
+  try {
+    await prisma.host.create({
+      data: { name, bio, avatar },
+    });
+  } catch (error) {
+    console.warn("DB error on createHost - ignoring update", error);
+  }
+
+  revalidatePath('/');
+  revalidatePath('/admin/hosts');
+}
+
+export async function deleteHost(id: string) {
+  try {
+    await prisma.host.delete({ where: { id }});
+  } catch (error) {
+    console.warn("DB error on deleteHost - ignoring update", error);
+  }
+
+  revalidatePath('/');
+  revalidatePath('/admin/hosts');
 }
 
 // ----- Program Actions -----
@@ -67,8 +146,8 @@ export async function createProgram(formData: FormData) {
     console.warn("DB error on createProgram - ignoring update", error);
   }
 
+  revalidatePath('/');
   revalidatePath('/admin/programming');
-  revalidatePath('/programacao');
 }
 
 export async function deleteProgram(id: string) {
@@ -77,8 +156,8 @@ export async function deleteProgram(id: string) {
   } catch (error) {
     console.warn("DB error on deleteProgram - ignoring update", error);
   }
+  revalidatePath('/');
   revalidatePath('/admin/programming');
-  revalidatePath('/programacao');
 }
 
 // ----- News Actions -----

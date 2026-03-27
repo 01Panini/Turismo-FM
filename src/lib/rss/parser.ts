@@ -2,11 +2,22 @@
  * TurismoFM RSS Parser Strategy
  * Includes: 10s fetch timeout, Image extraction fallbacks, text sanitization, deterministic slug gen.
  */
+import { createHash } from 'crypto';
 import Parser from 'rss-parser';
 
 type CustomItem = {
   'media:content'?: { $: { url: string } };
   enclosure?: { url: string; type: string };
+};
+
+type ParsedFeedItem = Parser.Item & CustomItem & {
+  content?: string;
+  contentSnippet?: string;
+  guid?: string;
+  isoDate?: string;
+  link?: string;
+  pubDate?: string;
+  title?: string;
 };
 
 const parser = new Parser<unknown, CustomItem>({
@@ -35,9 +46,9 @@ export async function fetchFeed(url: string, sourceName: string) {
 
   const feed = await fetchWithTimeout();
 
-  return feed.items.map((item: any) => {
+  return (feed.items as ParsedFeedItem[]).map((item) => {
     // 1. Fallback Image Strategy
-    let imageUrl = '/images/news-placeholder.jpg'; // Needs to exist in public folder
+    let imageUrl = '/images/news-placeholder.svg';
     
     if (item['media:content']?.$?.url) {
       imageUrl = item['media:content'].$.url;
@@ -50,9 +61,16 @@ export async function fetchFeed(url: string, sourceName: string) {
     }
 
     // 2. Deterministic Slug Generation
-    const baseSlug = `${item.title}-${sourceName}`.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const shortHash = Math.random().toString(36).substring(2, 7);
-    const rawSlug = `${baseSlug.slice(0, 60)}-${shortHash}`;
+    const normalizedTitle = (item.title || 'TurismoFM News')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    const slugSeed = item.guid || item.link || `${item.title}-${item.pubDate || item.isoDate || ''}-${sourceName}`;
+    const stableHash = createHash('sha1').update(slugSeed).digest('hex').slice(0, 10);
+    const rawSlug = `${(normalizedTitle || 'turismofm-news').slice(0, 60)}-${stableHash}`;
 
     // 3. Description Sanitization and Truncation
     const rawDescription = item.contentSnippet || item.content || '';
@@ -65,7 +83,7 @@ export async function fetchFeed(url: string, sourceName: string) {
       url: item.link || '',
       source: sourceName,
       image: imageUrl,
-      publishedAt: new Date(item.pubDate || new Date()),
+      publishedAt: new Date(item.isoDate || item.pubDate || new Date()),
     };
   });
 }

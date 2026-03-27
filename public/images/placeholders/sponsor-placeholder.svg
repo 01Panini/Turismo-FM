@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 160" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder de patrocinador</title>
+  <desc id="desc">Marca temporaria para patrocinadores da Turismo FM.</desc>
+  <defs>
+    <linearGradient id="sponsorBg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#111216" />
+      <stop offset="100%" stop-color="#18191E" />
+    </linearGradient>
+  </defs>
+  <rect width="420" height="160" rx="28" fill="url(#sponsorBg)" />
+  <rect x="28" y="28" width="64" height="104" rx="20" fill="#FFB800" />
+  <circle cx="60" cy="60" r="14" fill="#0B0C10" />
+  <circle cx="60" cy="100" r="14" fill="#0B0C10" />
+  <text x="126" y="74" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="34" font-weight="700">
+    Turismo FM
+  </text>
+  <text x="126" y="110" fill="#A0AAB2" font-family="Arial, sans-serif" font-size="20" font-weight="600" letter-spacing="3">
+    PARCEIRO OFICIAL
+  </text>
+</svg>

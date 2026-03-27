@@ -1,4 +1,5 @@
 import { getSponsors } from '@/lib/services/data';
+import { createSponsor, deleteSponsor } from '@/lib/actions/admin';
 
 export default async function SponsorsPage() {
   const sponsors = await getSponsors();
@@ -7,7 +8,7 @@ export default async function SponsorsPage() {
     <div>
       <h2 className="text-3xl font-display font-medium text-slate-900 mb-8">Patrocinadores</h2>
       
-      <form className="bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 mb-8 border border-gray-100">
+      <form action={createSponsor} className="bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-2xl p-8 mb-8 border border-gray-100">
         <h3 className="text-xl font-display font-medium text-gray-900 mb-6 border-b border-gray-100 pb-4">Novo Patrocinador</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -45,7 +46,11 @@ export default async function SponsorsPage() {
                   )}
                 </div>
               </div>
-              <button className="text-red-500 hover:text-red-700 hover:bg-red-50 px-4 py-2 rounded-lg text-sm font-bold uppercase tracking-wide transition-colors self-start md:self-auto">Excluir</button>
+              <form action={deleteSponsor.bind(null, s.id)}>
+                <button type="submit" className="text-red-500 hover:text-red-700 hover:bg-red-50 px-4 py-2 rounded-lg text-sm font-bold uppercase tracking-wide transition-colors self-start md:self-auto">
+                  Excluir
+                </button>
+              </form>
             </li>
           ))}
           {sponsors.length === 0 && <li className="p-8 text-center border-2 border-dashed border-gray-200 rounded-xl m-4 text-gray-500 font-medium">Nenhum patrocinador cadastrado.</li>}

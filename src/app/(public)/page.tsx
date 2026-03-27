@@ -10,21 +10,29 @@ import { getPrograms, getHosts, getSponsors, getNewsByCategory, getSettings } fr
 export default async function Home() {
   const settings = await getSettings();
   const regionalNews = await getNewsByCategory('REGIONAL', 4);
+  const worldNews = await getNewsByCategory('MUNDO', 4);
   const programs = await getPrograms();
   const hosts = await getHosts();
   const sponsors = await getSponsors();
 
   return (
-    <main className="bg-background min-h-screen text-foreground overflow-x-hidden">
+    <div className="bg-background min-h-screen text-foreground overflow-x-hidden">
       <div className="pb-24">
-        <HeroSection />
+        <HeroSection streamUrl={settings?.streamUrl} />
         <FeaturedStoriesSection news={regionalNews} title="Destaques na Região." subtitle="Notícias Locais" />
+        {worldNews.length > 0 && (
+          <FeaturedStoriesSection
+            news={worldNews}
+            title="Brasil e mundo em foco."
+            subtitle="Atualidades"
+          />
+        )}
         <RadioProgramsSection programs={programs} />
         <HostsSection hosts={hosts} />
         <SocialWallSection instagramUrl={settings?.instagramUrl || "https://instagram.com/turismofm"} />
         <SponsorsSection sponsors={sponsors} />
         <CallToActionSection />
       </div>
-    </main>
+    </div>
   );
 }

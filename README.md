@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Turismo FM
 
-## Getting Started
+Plataforma institucional da Turismo FM 90.3 com:
 
-First, run the development server:
+- home pública com streaming, notícias, programação, equipe e patrocinadores
+- painel administrativo protegido por senha
+- ingestão de notícias via RSS
+- persistência com Prisma + PostgreSQL, com fallback para mocks quando o banco não estiver disponível
+
+## Rodando localmente
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Variáveis de ambiente
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `DATABASE_URL`
+- `ADMIN_PASSWORD`
+- `ADMIN_JWT_SECRET`
+- `CRON_SECRET`
+- `NEXT_PUBLIC_SITE_URL`
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev`
+- `npm run lint`
+- `npm run build`
+- `npm run start`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Banco de dados
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- schema Prisma em `prisma/schema.prisma`
+- seed em `prisma/seed.js`
 
-## Deploy on Vercel
+## Automação RSS
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+O endpoint `src/app/api/cron/rss-sync/route.ts` processa feeds ativos e está preparado para uso com Vercel Cron.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy
+
+Projeto preparado para Next.js 14 em Vercel.

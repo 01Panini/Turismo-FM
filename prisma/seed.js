@@ -6,7 +6,7 @@ async function main() {
   console.log('Seeding settings...');
   await prisma.setting.create({
     data: {
-      streamUrl: 'https://stream.zeno.fm/turismofm',
+      streamUrl: 'https://stm14.xcast.com.br:11104/;',
       instagramUrl: 'https://instagram.com/turismofm903',
       contactEmail: 'contato@turismofm.com.br',
     },
@@ -16,7 +16,7 @@ async function main() {
   await prisma.sponsor.create({
     data: {
       name: 'Prefeitura',
-      logo: '/images/sponsors/prefeitura-placeholder.png',
+      logo: '/images/placeholders/sponsor-placeholder.svg',
       website: 'https://example.com'
     }
   });
@@ -26,6 +26,7 @@ async function main() {
     data: {
       name: 'João Radialista',
       bio: 'A voz das manhãs.',
+      avatar: '/images/placeholders/host-placeholder.svg',
     }
   });
 

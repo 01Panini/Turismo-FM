@@ -4,26 +4,34 @@ import prisma from '@/lib/db';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const token = searchParams.get('token');
+  const authorization = request.headers.get('authorization');
+  const bearerToken = authorization?.startsWith('Bearer ')
+    ? authorization.slice('Bearer '.length)
+    : null;
+  const token = bearerToken || searchParams.get('token');
+  const cronSecret = process.env.CRON_SECRET;
 
   // Protect the endpoint
-  if (token !== process.env.CRON_SECRET) {
+  if (!cronSecret) {
+    return NextResponse.json({ success: false, error: 'CRON_SECRET is not configured.' }, { status: 500 });
+  }
+
+  if (token !== cronSecret) {
     return new NextResponse('Unauthorized', { status: 401 });
   }
 
-  // Fetch Active RSS Feeds from the database
-  const activeFeeds = await prisma.rssFeed.findMany({
-    where: { isActive: true },
-    select: { url: true, name: true, category: true }
-  });
-
-  if (activeFeeds.length === 0) {
-    return NextResponse.json({ success: true, message: 'No active RSS feeds to sync.', synced: 0 });
-  }
-
-  let syncedCount = 0;
-
   try {
+    const activeFeeds = await prisma.rssFeed.findMany({
+      where: { isActive: true },
+      select: { url: true, name: true, category: true }
+    });
+
+    if (activeFeeds.length === 0) {
+      return NextResponse.json({ success: true, message: 'No active RSS feeds to sync.', synced: 0 });
+    }
+
+    let syncedCount = 0;
+
     for (const source of activeFeeds) {
       try {
         const items = await fetchFeed(source.url, source.name);

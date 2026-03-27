@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder de locutor</title>
+  <desc id="desc">Ilustracao de perfil para locutores da Turismo FM.</desc>
+  <defs>
+    <linearGradient id="hostBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1B1D24" />
+      <stop offset="100%" stop-color="#0B0C10" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="48" fill="url(#hostBg)" />
+  <circle cx="200" cy="152" r="74" fill="#FFB800" fill-opacity="0.92" />
+  <path d="M94 336c18-62 62-98 106-98s88 36 106 98" fill="#FFB800" fill-opacity="0.22" stroke="#FFB800" stroke-width="16" stroke-linecap="round" />
+  <text x="200" y="368" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="24" font-weight="700" text-anchor="middle" letter-spacing="3">
+    NO AR
+  </text>
+</svg>

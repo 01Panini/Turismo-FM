@@ -14,9 +14,10 @@ type Program = {
   endTime: string;
 };
 
-export default function RadioPlayer({ streamUrl: _streamUrl, programs }: { streamUrl?: string | null, programs: Program[] }) {
-  // Appended hardcoded URL to guarantee radio playback 
-  const streamUrl = "https://stm14.xcast.com.br:11104/;";
+const DEFAULT_STREAM_URL = "https://stm14.xcast.com.br:11104/"; // Removed the suffix semicolon for better compatibility
+
+export default function RadioPlayer({ streamUrl: configuredStreamUrl, programs }: { streamUrl?: string | null, programs: Program[] }) {
+  const streamUrl = configuredStreamUrl?.trim() || DEFAULT_STREAM_URL;
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
@@ -43,13 +44,34 @@ export default function RadioPlayer({ streamUrl: _streamUrl, programs }: { strea
 
     if (isPlaying) {
       audioRef.current.pause();
+      // Reset source on pause to avoid resuming from old buffer
+      audioRef.current.src = "";
+      audioRef.current.load();
       setIsPlaying(false);
     } else {
       try {
+        // Re-assign src to ensure we are at the "live" edge
+        audioRef.current.src = streamUrl;
+        audioRef.current.load();
         await audioRef.current.play();
         setIsPlaying(true);
       } catch (e) {
-        console.error("Audio playback failed", e);
+        // Retry fallback if NotSupportedError
+        if (e instanceof Error && e.name === "NotSupportedError") {
+          try {
+            audioRef.current.src = streamUrl.endsWith("/") ? `${streamUrl};` : `${streamUrl}/;`;
+            audioRef.current.load();
+            await audioRef.current.play();
+            setIsPlaying(true);
+            return;
+          } catch (retryError) {
+            // Only log if retry also fails
+            console.error("Audio playback failed after retry", retryError);
+          }
+        } else {
+          // Log other types of errors immediately
+          console.error("Audio playback failed", e);
+        }
         setIsPlaying(false);
       }
     }
@@ -61,7 +83,11 @@ export default function RadioPlayer({ streamUrl: _streamUrl, programs }: { strea
 
   return (
     <>
-      <audio ref={audioRef} src={streamUrl} preload="none" />
+      <audio 
+        ref={audioRef} 
+        preload="none" 
+        crossOrigin="anonymous"
+      />
       
       <motion.div 
         initial={{ y: 100 }}

@@ -14,7 +14,7 @@ export default function SponsorsSection({ sponsors }: { sponsors: SponsorType[] 
     const displayed = sponsors.length > 0 ? sponsors : fallbackSponsors;
 
     return (
-        <section className="py-24 bg-surface border-y border-white/5 overflow-hidden">
+        <section id="patrocinadores" className="py-24 bg-surface border-y border-white/5 overflow-hidden">
             <div className="container mx-auto px-6 mb-12 text-center">
                 <span className="text-muted tracking-widest uppercase text-xs font-bold font-display">
                     Marcas que apoiam nossa rádio

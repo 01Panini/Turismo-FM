@@ -9,7 +9,7 @@ export default async function NoticiasPage() {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-blue-900 tracking-tight">Todas as Notícias</h1>
           <p className="mt-4 text-xl text-gray-500">
-            Acompanhe o que é destaque no Brasil e no mundo.
+            Acompanhe o que é destaque na região, no Brasil e no mundo.
           </p>
         </div>
 
