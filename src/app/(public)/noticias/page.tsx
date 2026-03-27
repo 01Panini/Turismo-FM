@@ -14,7 +14,7 @@ export default async function NoticiasPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {news.map((item) => (
+          {news.map((item: any) => (
             <div key={item.id} className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col border border-gray-100 hover:shadow-md transition-shadow">
               <div className="h-48 bg-gray-200 relative">
                 {item.image ? (

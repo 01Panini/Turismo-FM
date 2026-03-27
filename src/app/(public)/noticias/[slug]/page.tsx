@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
   const news = await getLatestNews(50);
-  return news.map((item) => ({
+  return news.map((item: { slug: string }) => ({
     slug: item.slug,
   }));
 }
