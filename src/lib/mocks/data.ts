@@ -1,11 +1,13 @@
-export const MOCK_SETTINGS = {
+import { Setting, Sponsor, Host, Program, NewsItem } from '@/lib/types';
+
+export const MOCK_SETTINGS: Setting = {
   id: '1',
   streamUrl: 'https://stm14.xcast.com.br:11104/;',
   instagramUrl: 'https://www.instagram.com/turismofm',
   contactEmail: 'contato@turismofm.com.br',
 };
 
-export const MOCK_SPONSORS = [
+export const MOCK_SPONSORS: Sponsor[] = [
   {
     id: '1',
     name: 'Prefeitura',
@@ -20,7 +22,7 @@ export const MOCK_SPONSORS = [
   }
 ];
 
-export const MOCK_HOSTS = [
+export const MOCK_HOSTS: Host[] = [
   {
     id: '1',
     name: 'João Radialista',
@@ -35,7 +37,7 @@ export const MOCK_HOSTS = [
   }
 ];
 
-export const MOCK_PROGRAMS = [
+export const MOCK_PROGRAMS: Program[] = [
   {
     id: '1',
     title: 'Manhã Turismo',
@@ -54,7 +56,7 @@ export const MOCK_PROGRAMS = [
   }
 ];
 
-export const MOCK_NEWS = [
+export const MOCK_NEWS: NewsItem[] = [
   {
     id: '1',
     title: 'Festival de Turismo de Inverno atrai milhares à cidade',
@@ -65,7 +67,6 @@ export const MOCK_NEWS = [
     category: 'REGIONAL',
     url: 'https://g1.globo.com',
     publishedAt: new Date(),
-    createdAt: new Date(),
   },
   {
     id: '2',
@@ -77,6 +78,5 @@ export const MOCK_NEWS = [
     category: 'MUNDO',
     url: 'https://agenciabrasil.ebc.com.br',
     publishedAt: new Date(Date.now() - 86400000), // 1 day ago
-    createdAt: new Date(),
   }
 ];

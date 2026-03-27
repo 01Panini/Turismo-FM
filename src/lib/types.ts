@@ -1,51 +1,60 @@
-export interface NewsItem {
-  id: string;
-  title: string;
-  slug: string;
-  description: string | null;
-  image: string | null;
-  source: string;
-  category: string;
-  url: string;
-  publishedAt: Date | string;
-  createdAt?: Date | string;
-}
+import { 
+    News as PrismaNews, 
+    Host as PrismaHost, 
+    Program as PrismaProgram, 
+    Sponsor as PrismaSponsor, 
+    Setting as PrismaSetting, 
+    RssFeed as PrismaRssFeed 
+} from '@prisma/client';
 
-export interface Host {
-  id: string;
-  name: string;
-  bio: string | null;
-  avatar: string | null;
-}
+export type NewsItem = {
+    id: PrismaNews['id'];
+    title: PrismaNews['title'];
+    slug: PrismaNews['slug'];
+    description: PrismaNews['description'];
+    image: PrismaNews['image'];
+    source: PrismaNews['source'];
+    category: PrismaNews['category'];
+    url: PrismaNews['url'];
+    publishedAt: PrismaNews['publishedAt'] | string; // Handle ISO string fallback
+    createdAt?: PrismaNews['createdAt'] | string;
+};
 
-export interface Sponsor {
-  id: string;
-  name: string;
-  logo: string | null;
-  website: string | null;
-}
+export type Host = {
+    id: PrismaHost['id'];
+    name: PrismaHost['name'];
+    bio: PrismaHost['bio'];
+    avatar: PrismaHost['avatar'];
+};
 
-export interface Program {
-  id: string;
-  title: string;
-  dayOfWeek: number;
-  startTime: string; // HH:mm
-  endTime: string;   // HH:mm
-  hostName: string;
-  live?: boolean;
-}
+export type Sponsor = {
+    id: PrismaSponsor['id'];
+    name: PrismaSponsor['name'];
+    logo: PrismaSponsor['logo'];
+    website: PrismaSponsor['website'];
+};
 
-export interface Setting {
-  id: string;
-  streamUrl: string | null;
-  instagramUrl: string | null;
-  contactEmail: string | null;
-}
+export type Program = {
+    id: PrismaProgram['id'];
+    title: PrismaProgram['title'];
+    dayOfWeek: PrismaProgram['dayOfWeek'];
+    startTime: PrismaProgram['startTime'];
+    endTime: PrismaProgram['endTime'];
+    hostName: PrismaProgram['hostName'];
+    live?: boolean;
+};
 
-export interface RssFeed {
-  id: string;
-  name: string;
-  url: string;
-  category: string;
-  isActive: boolean;
-}
+export type Setting = {
+    id: PrismaSetting['id'];
+    streamUrl: PrismaSetting['streamUrl'];
+    instagramUrl: PrismaSetting['instagramUrl'];
+    contactEmail: PrismaSetting['contactEmail'];
+};
+
+export type RssFeed = {
+    id: PrismaRssFeed['id'];
+    name: PrismaRssFeed['name'];
+    url: PrismaRssFeed['url'];
+    category: PrismaRssFeed['category'];
+    isActive: PrismaRssFeed['isActive'];
+};
