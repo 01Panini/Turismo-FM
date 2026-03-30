@@ -15,8 +15,12 @@ export async function GET() {
     
     try {
       count = await prisma.news.count();
-    } catch (e: any) {
-      errorFromPrisma = e.message || String(e);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        errorFromPrisma = e.message;
+      } else {
+        errorFromPrisma = String(e);
+      }
     }
 
     return NextResponse.json({
@@ -33,7 +37,10 @@ export async function GET() {
       }
     });
 
-  } catch (globalError: any) {
-    return NextResponse.json({ success: false, error: globalError.message || String(globalError) }, { status: 500 });
+  } catch (globalError: unknown) {
+    if (globalError instanceof Error) {
+      return NextResponse.json({ success: false, error: globalError.message }, { status: 500 });
+    }
+    return NextResponse.json({ success: false, error: String(globalError) }, { status: 500 });
   }
 }
