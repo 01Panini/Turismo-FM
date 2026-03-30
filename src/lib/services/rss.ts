@@ -43,6 +43,7 @@ export const rssService = {
         try {
           console.log(`[RSS-SERVICE] Syncing feed: ${source.name} (${source.url})`);
           const items = await fetchFeed(source.url, source.name);
+          console.log(`[RSS-SERVICE] Fetched ${items.length} items from ${source.name}`);
           
           for (const item of items) {
             // Upsert to avoid duplicates based on deterministic slug
@@ -56,6 +57,7 @@ export const rssService = {
             });
             results.synced++;
           }
+          console.log(`[RSS-SERVICE] Upserted items from ${source.name}`);
         } catch (feedError) {
           const errMsg = `Failed to fetch feed ${source.name}: ${feedError instanceof Error ? feedError.message : String(feedError)}`;
           console.error(`[RSS-SERVICE] ${errMsg}`);

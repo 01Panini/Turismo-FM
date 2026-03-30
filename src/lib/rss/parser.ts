@@ -6,7 +6,7 @@ import { createHash } from 'crypto';
 import Parser from 'rss-parser';
 
 type CustomItem = {
-  'media:content'?: { $: { url: string } };
+  mediaContent?: { $: { url: string } };
   enclosure?: { url: string; type: string };
 };
 
@@ -22,7 +22,7 @@ type ParsedFeedItem = Parser.Item & CustomItem & {
 
 const parser = new Parser<unknown, CustomItem>({
   customFields: {
-    item: ['media:content', 'enclosure'],
+    item: [['media:content', 'mediaContent'], 'enclosure'],
   },
   timeout: 10000, // 10s built-in fetch timeout
 });
@@ -33,7 +33,12 @@ export async function fetchFeed(url: string, sourceName: string) {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), 10000);
     try {
-      const response = await fetch(url, { signal: controller.signal });
+      const response = await fetch(url, { 
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+      });
       clearTimeout(id);
       if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
       const xml = await response.text();
@@ -50,8 +55,8 @@ export async function fetchFeed(url: string, sourceName: string) {
     // 1. Fallback Image Strategy
     let imageUrl = '/images/news-placeholder.svg';
     
-    if (item['media:content']?.$?.url) {
-      imageUrl = item['media:content'].$.url;
+    if (item.mediaContent?.$?.url) {
+      imageUrl = item.mediaContent.$.url;
     } else if (item.enclosure?.url && item.enclosure.type?.startsWith('image/')) {
       imageUrl = item.enclosure.url;
     } else {
