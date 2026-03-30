@@ -1,6 +1,8 @@
 import { getLatestNews } from '@/lib/services/data';
 import { NewsItem } from '@/lib/types';
 
+export const revalidate = 60; // 60 seconds ISR revalidation
+
 export default async function NoticiasPage() {
   const news = await getLatestNews(40) as NewsItem[];
 

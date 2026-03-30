@@ -2,6 +2,8 @@ import { getNewsBySlug, getLatestNews } from '@/lib/services/data';
 import { notFound } from 'next/navigation';
 import { NewsItem } from '@/lib/types';
 
+export const revalidate = 60; // 60 seconds ISR revalidation
+
 export async function generateStaticParams() {
   const news = await getLatestNews(50) as NewsItem[];
   return news.map((item: NewsItem) => ({

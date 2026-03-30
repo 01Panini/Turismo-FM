@@ -7,6 +7,8 @@ import SponsorsSection from "@/components/sections/SponsorsSection";
 import CallToActionSection from "@/components/sections/CallToActionSection";
 import { getPrograms, getHosts, getSponsors, getNewsByCategory, getSettings } from '@/lib/services/data';
 
+export const revalidate = 60; // Revalida a cada 60 segundos (ISR)
+
 export default async function Home() {
   const settings = await getSettings();
   const regionalNews = await getNewsByCategory('REGIONAL', 4);
