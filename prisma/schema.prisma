@@ -4,7 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model News {
@@ -27,7 +28,7 @@ model News {
 model Program {
   id          String @id @default(uuid())
   title       String
-  dayOfWeek   Int    @map("day_of_week") // 0-6 (Sun-Sat)
+  dayOfWeek   Int    @map("day_of_week") // -1 = every day, 0-6 = Sun-Sat
   startTime   String @map("start_time")  // HH:mm
   endTime     String @map("end_time")    // HH:mm
   hostName    String @map("host_name")
