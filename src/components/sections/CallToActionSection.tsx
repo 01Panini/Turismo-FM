@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Mail, Phone } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function CallToActionSection() {
     const commercialEmail = "opec@turismofm.com.br";
-    const commercialPhone = "+5564981172332";
 
     return (
         <section id="anuncie" className="py-32 px-6 container mx-auto bg-background relative overflow-hidden">
@@ -43,24 +42,13 @@ export default function CallToActionSection() {
                             <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                         </a>
                         <a
-                            href={`https://wa.me/${commercialPhone.replace(/\D/g, "")}`}
+                            href="https://wa.me/5564984081842?text=Vim%20do%20site%20e%20quero%20ser%20patrocinador%20da%20r%C3%A1dio"
                             target="_blank"
                             rel="noreferrer"
                             className="w-full sm:w-auto px-8 py-4 glass-panel border border-white/10 text-white font-bold uppercase tracking-wider rounded-full hover:bg-white/5 transition-all duration-300 flex items-center justify-center gap-3"
                         >
                             Falar no WhatsApp
                         </a>
-                    </div>
-
-                    <div className="mt-16 flex flex-wrap justify-center gap-8 text-sm text-muted font-medium">
-                        <div className="flex items-center gap-2">
-                            <Mail size={16} className="text-primary" />
-                            <span>opec@turismofm.com.br</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Phone size={16} className="text-primary" />
-                            <span>(64) 98117-2332</span>
-                        </div>
                     </div>
                 </div>
             </motion.div>

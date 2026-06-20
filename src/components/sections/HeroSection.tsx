@@ -20,7 +20,7 @@ export default function HeroSection() {
     const yGrid = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
 
     return (
-        <section ref={ref} className="relative min-h-[100dvh] pb-24 w-full flex items-center overflow-hidden bg-[#0B0C10]">
+        <section ref={ref} className="relative min-h-[100dvh] pb-32 w-full flex items-center overflow-hidden bg-[#0B0C10]">
             {/* Animated Background Layers */}
             <motion.div style={{ y: yBg }} className="hero-bg" />
             <motion.div style={{ y: yGrid }} className="absolute inset-0 hero-grid" />
@@ -29,7 +29,7 @@ export default function HeroSection() {
             <div className="absolute inset-0 border-t border-white/5 bg-transparent pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noiseFilter\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noiseFilter)\"/%3E%3C/svg%3E')", opacity: 0.1, mixBlendMode: "overlay" }} />
 
             {/* Main Content */}
-            <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center pt-24 md:pt-32">
+            <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center pt-32 md:pt-40">
                 <div className="flex flex-col items-start gap-4 w-full max-w-5xl opacity-0 animate-fadeUp [animation-delay:200ms]">
 
                     {/* Top Label */}
