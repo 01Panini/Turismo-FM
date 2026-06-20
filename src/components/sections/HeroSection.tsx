@@ -7,7 +7,11 @@ import { useRadioPlayer } from "@/components/player/RadioPlayerProvider";
 import ScrollingText from "@/components/ui/ScrollingText";
 import SoundBars from "@/components/ui/SoundBars";
 
-export default function HeroSection() {
+type HeroSectionProps = {
+    heroImageUrl?: string | null;
+};
+
+export default function HeroSection({ heroImageUrl }: HeroSectionProps) {
     const ref = useRef(null);
     const { isPlaying, isLoading, songTitle, coverUrl, togglePlay } = useRadioPlayer();
 
@@ -18,6 +22,7 @@ export default function HeroSection() {
 
     const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const yGrid = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+    const yImg = useTransform(scrollYProgress, [0, 1], ["0%", "14%"]);
 
     return (
         <section ref={ref} className="relative min-h-[100dvh] pb-32 w-full flex items-center overflow-hidden bg-[#0B0C10]">
@@ -27,6 +32,24 @@ export default function HeroSection() {
 
             {/* Subtle Gradient Noise */}
             <div className="absolute inset-0 border-t border-white/5 bg-transparent pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noiseFilter\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noiseFilter)\"/%3E%3C/svg%3E')", opacity: 0.1, mixBlendMode: "overlay" }} />
+
+            {/* Right-side host/studio image (desktop only) */}
+            {heroImageUrl && (
+                <motion.div
+                    style={{ y: yImg }}
+                    className="absolute right-0 top-0 h-full w-1/2 hidden lg:block pointer-events-none select-none"
+                >
+                    <img
+                        src={heroImageUrl}
+                        alt=""
+                        aria-hidden
+                        className="w-full h-full object-cover object-center grayscale-[0.2]"
+                    />
+                    {/* Blend into the dark background on the left, top and bottom */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#0B0C10] via-[#0B0C10]/55 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B0C10] via-transparent to-[#0B0C10]/60" />
+                </motion.div>
+            )}
 
             {/* Main Content */}
             <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-between md:justify-center pt-32 md:pt-40">

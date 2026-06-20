@@ -20,7 +20,7 @@ export default async function Home() {
   return (
     <div className="bg-background min-h-screen text-foreground overflow-x-hidden">
       <div className="pb-24">
-        <HeroSection />
+        <HeroSection heroImageUrl={hosts[0]?.avatar ?? null} />
         <FeaturedStoriesSection news={regionalNews} title="Destaques na Região." subtitle="Notícias Locais" />
         {worldNews.length > 0 && (
           <FeaturedStoriesSection
