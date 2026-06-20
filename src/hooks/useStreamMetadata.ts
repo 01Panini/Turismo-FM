@@ -1,11 +1,31 @@
 import { useState, useEffect } from 'react';
 
-export function useStreamMetadata(streamUrl: string) {
+type StreamMetadata = {
+  songTitle: string | null;
+  coverUrl: string | null;
+};
+
+// Tenta extrair uma URL de capa de álbum dos campos mais comuns retornados
+// por servidores de streaming (a maioria do Shoutcast/Icecast não envia capa).
+function extractCover(data: Record<string, unknown>): string | null {
+  const candidates = ['cover', 'coverart', 'coverArt', 'albumart', 'albumArt', 'art', 'artwork', 'image'];
+  for (const key of candidates) {
+    const value = data[key];
+    if (typeof value === 'string' && /^https?:\/\//.test(value)) {
+      return value;
+    }
+  }
+  return null;
+}
+
+export function useStreamMetadata(streamUrl: string): StreamMetadata {
   const [songTitle, setSongTitle] = useState<string | null>(null);
+  const [coverUrl, setCoverUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!streamUrl) {
       setSongTitle(null);
+      setCoverUrl(null);
       return;
     }
 
@@ -23,6 +43,7 @@ export function useStreamMetadata(streamUrl: string) {
         if (data && data.songtitle) {
           setSongTitle(data.songtitle);
         }
+        setCoverUrl(extractCover(data ?? {}));
       } catch (err) {
         if (!(err instanceof DOMException && err.name === 'AbortError')) {
           console.error("Failed to fetch stream metadata via proxy", err);
@@ -63,5 +84,5 @@ export function useStreamMetadata(streamUrl: string) {
     };
   }, [streamUrl]);
 
-  return { songTitle };
+  return { songTitle, coverUrl };
 }

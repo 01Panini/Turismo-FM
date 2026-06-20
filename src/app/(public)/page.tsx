@@ -2,16 +2,14 @@ import HeroSection from "@/components/sections/HeroSection";
 import FeaturedStoriesSection from "@/components/sections/FeaturedStoriesSection";
 import RadioProgramsSection from "@/components/sections/RadioProgramsSection";
 import HostsSection from "@/components/sections/HostsSection";
-import SocialWallSection from "@/components/sections/SocialWallSection";
 import SponsorsSection from "@/components/sections/SponsorsSection";
 import CallToActionSection from "@/components/sections/CallToActionSection";
-import { getPrograms, getHosts, getSponsors, getNewsByCategory, getSettings } from '@/lib/services/data';
+import { getPrograms, getHosts, getSponsors, getNewsByCategory } from '@/lib/services/data';
 
 export const revalidate = 60; // Revalida a cada 60 segundos (ISR)
 
 export default async function Home() {
-  const [settings, regionalNews, worldNews, programs, hosts, sponsors] = await Promise.all([
-    getSettings(),
+  const [regionalNews, worldNews, programs, hosts, sponsors] = await Promise.all([
     getNewsByCategory('REGIONAL', 4),
     getNewsByCategory('MUNDO', 4),
     getPrograms(),
@@ -33,7 +31,6 @@ export default async function Home() {
         )}
         <RadioProgramsSection programs={programs} />
         <HostsSection hosts={hosts} />
-        <SocialWallSection instagramUrl={settings?.instagramUrl || "https://instagram.com/turismofm"} />
         <SponsorsSection sponsors={sponsors} />
         <CallToActionSection />
       </div>

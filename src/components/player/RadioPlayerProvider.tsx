@@ -21,6 +21,7 @@ type RadioPlayerContextValue = {
   volume: number;
   isMuted: boolean;
   songTitle: string | null;
+  coverUrl: string | null;
   currentProgram: Program | null;
   togglePlay: () => void;
   toggleMute: () => void;
@@ -58,7 +59,7 @@ export function RadioPlayerProvider({
   const [currentProgram, setCurrentProgram] = useState<Program | null>(null);
 
   // Só busca metadados enquanto o áudio está tocando (economiza dados/bateria no mobile).
-  const { songTitle } = useStreamMetadata(isPlaying ? resolvedStreamUrl : "");
+  const { songTitle, coverUrl } = useStreamMetadata(isPlaying ? resolvedStreamUrl : "");
 
   // Mantém o programa atual atualizado a cada minuto.
   useEffect(() => {
@@ -132,12 +133,13 @@ export function RadioPlayerProvider({
       volume,
       isMuted,
       songTitle,
+      coverUrl,
       currentProgram,
       togglePlay,
       toggleMute,
       setVolume,
     }),
-    [isPlaying, isLoading, volume, isMuted, songTitle, currentProgram, togglePlay, toggleMute, setVolume]
+    [isPlaying, isLoading, volume, isMuted, songTitle, coverUrl, currentProgram, togglePlay, toggleMute, setVolume]
   );
 
   return (

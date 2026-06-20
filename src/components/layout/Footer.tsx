@@ -21,7 +21,7 @@ const quickLinks: QuickLink[] = [
 
 export default function Footer({ instagramUrl, contactEmail }: FooterProps) {
     return (
-        <footer className="border-t border-white/5 bg-background pt-16 pb-8 px-6 overflow-hidden relative">
+        <footer className="border-t border-white/5 bg-background pt-16 pb-28 md:pb-8 px-6 overflow-hidden relative">
             <div className="container mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 relative z-10">
                     <div className="md:col-span-2">

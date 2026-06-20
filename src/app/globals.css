@@ -169,7 +169,10 @@
 }
 
 .animate-visualize {
-  animation: visualize 1s infinite ease-in-out;
+  animation-name: visualize;
+  animation-duration: var(--viz-duration, 1s);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 .animate-expand {
@@ -182,6 +185,24 @@
 
 .animate-scrollLine {
   animation: scrollLine 2s infinite ease-in-out;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation-name: marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--marquee-duration, 12s);
+  will-change: transform;
 }
 
 /* Respeita a preferência de redução de movimento do sistema */
@@ -203,5 +224,21 @@
   .animate-fadeUp {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  /* Feedback de áudio ao vivo e letreiro permanecem ativos mesmo com
+     redução de movimento (são informação, não enfeite). */
+  .animate-visualize {
+    animation-name: visualize !important;
+    animation-duration: var(--viz-duration, 1s) !important;
+    animation-timing-function: ease-in-out !important;
+    animation-iteration-count: infinite !important;
+  }
+
+  .animate-marquee {
+    animation-name: marquee !important;
+    animation-timing-function: linear !important;
+    animation-iteration-count: infinite !important;
+    animation-duration: var(--marquee-duration, 12s) !important;
   }
 }

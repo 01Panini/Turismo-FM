@@ -1,14 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Play, Pause, Loader2 } from "lucide-react";
 import { useRef } from "react";
 import { useRadioPlayer } from "@/components/player/RadioPlayerProvider";
+import ScrollingText from "@/components/ui/ScrollingText";
+import SoundBars from "@/components/ui/SoundBars";
 
 export default function HeroSection() {
     const ref = useRef(null);
-    const { isPlaying, isLoading, songTitle, togglePlay } = useRadioPlayer();
+    const { isPlaying, isLoading, songTitle, coverUrl, togglePlay } = useRadioPlayer();
 
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -51,44 +52,42 @@ export default function HeroSection() {
                     </p>
 
                     {/* Player Actions */}
-                    <div className="mt-12 flex flex-col xl:flex-row items-start xl:items-center gap-8 opacity-0 animate-fadeUp [animation-delay:600ms]">
-                        <div className="relative group p-[1px] rounded-2xl bg-gradient-to-b from-white/10 to-white/5 overflow-hidden w-fit">
-                            <div className="bg-[#111216]/90 backdrop-blur-xl rounded-2xl p-4 flex items-center gap-5 pr-12 min-w-[320px] max-w-[400px] hover:bg-[#18191E]/90 transition-colors">
+                    <div className="mt-12 w-full flex flex-col xl:flex-row items-start xl:items-center gap-8 opacity-0 animate-fadeUp [animation-delay:600ms]">
+                        <div className="relative group p-[1px] rounded-2xl bg-gradient-to-b from-white/10 to-white/5 overflow-hidden w-full max-w-[360px]">
+                            <div className="bg-[#111216]/90 backdrop-blur-xl rounded-2xl p-4 flex items-center gap-4 sm:gap-5 w-full overflow-hidden hover:bg-[#18191E]/90 transition-colors">
+                                {/* Desktop: interactive play control (no bottom nav on desktop) */}
                                 <button
                                     type="button"
                                     onClick={togglePlay}
                                     disabled={isLoading}
-                                    className="w-14 h-14 z-10 bg-primary text-black rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(255,184,0,0.3)] shrink-0 hover:scale-105 transition-transform duration-300 disabled:opacity-70"
+                                    className="w-14 h-14 z-10 bg-primary text-black rounded-xl hidden md:flex items-center justify-center shadow-[0_0_15px_rgba(255,184,0,0.3)] shrink-0 hover:scale-105 transition-transform duration-300 disabled:opacity-70"
                                     aria-label={isPlaying ? "Pausar transmissão" : "Tocar transmissão"}
                                 >
                                     {isLoading ? <Loader2 size={24} className="animate-spin" /> : isPlaying ? <Pause size={24} className="fill-current" /> : <Play size={24} className="fill-current ml-1" />}
                                 </button>
-                                <div className="flex flex-col min-w-0">
+
+                                {/* Mobile: capa do álbum quando disponível, senão barras de som ao vivo */}
+                                <div className="md:hidden w-12 h-12 rounded-xl overflow-hidden bg-primary/15 border border-primary/30 flex items-center justify-center shrink-0">
+                                    {coverUrl ? (
+                                        <img src={coverUrl} alt="Capa do álbum" className="w-full h-full object-cover" />
+                                    ) : (
+                                        <SoundBars active={isPlaying} />
+                                    )}
+                                </div>
+                                <div className="flex flex-col flex-1 min-w-0">
                                     <span className="text-[10px] font-bold tracking-[0.2em] text-primary uppercase mb-1">
                                         NO AR AGORA
                                     </span>
-                                    <span className="text-white font-bold text-base md:text-lg leading-tight mb-0.5 truncate" title={songTitle || 'Turismo FM'}>
-                                        {songTitle || 'Turismo FM'}
-                                    </span>
+                                    <ScrollingText
+                                        text={songTitle || 'Turismo FM'}
+                                        className="w-full text-white font-bold text-base md:text-lg leading-tight mb-0.5"
+                                    />
                                     <span className="text-white/50 text-xs truncate">
-                                        A Voz Que Move a Cidade
+                                        Todo mundo ouve. Todo mundo gosta.
                                     </span>
-                                </div>
-
-                                {/* Animated Equalizer */}
-                                <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-end gap-[3px] h-4">
-                                    <div className="w-[3px] bg-primary rounded-full animate-visualize [animation-delay:-0.2s]" />
-                                    <div className="w-[3px] bg-primary rounded-full animate-visualize [animation-delay:-0.4s]" />
-                                    <div className="w-[3px] bg-primary rounded-full animate-visualize [animation-delay:-0.1s]" />
-                                    <div className="w-[3px] bg-primary rounded-full animate-visualize [animation-delay:-0.3s]" />
                                 </div>
                             </div>
                         </div>
-
-                        <Link href="/#programacao" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors font-medium">
-                            Grade de programas
-                            <span className="transform translate-x-0 group-hover:translate-x-1 transition-transform">&rarr;</span>
-                        </Link>
                     </div>
                 </div>
             </div>

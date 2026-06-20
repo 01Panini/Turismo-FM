@@ -13,7 +13,7 @@ export default async function PublicLayout({
   return (
     <RadioPlayerProvider streamUrl={settings?.streamUrl} programs={programs}>
       <div className="flex flex-col min-h-screen">
-        <Header />
+        <Header instagramUrl={settings?.instagramUrl} />
         <main className="flex-grow" suppressHydrationWarning>{children}</main>
         <Footer
           instagramUrl={settings?.instagramUrl}

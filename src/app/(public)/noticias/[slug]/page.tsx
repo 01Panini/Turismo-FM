@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { getNewsBySlug, getLatestNews } from '@/lib/services/data';
 import { notFound } from 'next/navigation';
 import { NewsItem } from '@/lib/types';
@@ -42,43 +44,49 @@ export default async function NewsArticlePage({ params }: { params: { slug: stri
   }
 
   return (
-    <article className="bg-white min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+    <article className="bg-background text-foreground min-h-screen pt-28 md:pt-36 pb-20">
+      <div className="max-w-4xl mx-auto px-6">
+        <Link href="/noticias" className="inline-flex items-center gap-1 text-muted hover:text-primary transition-colors text-sm font-medium mb-10">
+          <ArrowLeft size={16} />
+          Voltar para notícias
+        </Link>
+
         <div className="mb-10 text-center">
-          <span className="inline-block bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm font-semibold uppercase tracking-wider mb-4">
+          <span className="inline-block bg-primary/90 text-black rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider mb-4">
             {article.source}
           </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-6 leading-tight">
+          <h1 className="text-3xl md:text-5xl font-display font-semibold tracking-tight mb-6 leading-tight text-balance">
             {article.title}
           </h1>
-          <p className="text-gray-500">
+          <p className="text-muted text-sm">
             Publicado em {new Date(article.publishedAt).toLocaleDateString('pt-BR', { dateStyle: 'long' })}
           </p>
         </div>
 
         {article.image && (
-          <div className="mb-12 rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+          <div className="mb-12 rounded-3xl overflow-hidden border border-white/5">
             <img src={article.image} alt={article.title} className="w-full h-auto object-cover max-h-[500px]" />
           </div>
         )}
 
-        <div className="mx-auto mb-12 text-lg leading-relaxed text-gray-800 md:text-xl">
+        <div className="mx-auto mb-12 text-lg leading-relaxed text-white/80 md:text-xl">
           {/* We use description here since we don't store full content in the DB, just the sanitized snippet */}
           <p>{article.description || 'Resumo não disponível.'}</p>
         </div>
 
         {article.url && (
-          <div className="mt-16 pt-8 border-t border-gray-200 text-center">
-            <p className="text-gray-600 mb-6 font-medium text-lg">
+          <div className="mt-16 pt-8 border-t border-white/10 text-center">
+            <p className="text-muted mb-6 font-medium text-lg">
               Quer ler os detalhes completos na fonte original?
             </p>
-            <a 
-              href={article.url} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-lg text-white bg-black hover:bg-gray-800 shadow-md hover:shadow-lg transition-all"
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold rounded-full text-black bg-primary hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(255,184,0,0.3)] transition-transform"
             >
-              Acessar matéria no parceiro {article.source} ↗
+              Acessar matéria no parceiro {article.source}
+              <ArrowUpRight size={18} />
             </a>
           </div>
         )}
