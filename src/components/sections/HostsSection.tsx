@@ -42,7 +42,7 @@ export default function HostsSection({ hosts }: { hosts: Host[] }) {
                             className="bg-surface border border-white/5 rounded-[2rem] p-8 text-center flex flex-col items-center group hover:border-primary/50 transition-colors shadow-2xl"
                         >
                             <div className="relative w-32 h-32 rounded-full overflow-hidden mb-6 border-4 border-background shadow-xl">
-                                <img src={host.avatar || `https://picsum.photos/seed/${host.id}/400/400`} alt={host.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                                <img src={host.avatar || `https://picsum.photos/seed/${host.id}/400/400`} alt={host.name} loading="lazy" decoding="async" width={128} height={128} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                             </div>
 
                             <h3 className="text-2xl font-display font-semibold transition-colors group-hover:text-primary mb-1 text-white">{host.name}</h3>

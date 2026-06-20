@@ -10,17 +10,19 @@ import { getPrograms, getHosts, getSponsors, getNewsByCategory, getSettings } fr
 export const revalidate = 60; // Revalida a cada 60 segundos (ISR)
 
 export default async function Home() {
-  const settings = await getSettings();
-  const regionalNews = await getNewsByCategory('REGIONAL', 4);
-  const worldNews = await getNewsByCategory('MUNDO', 4);
-  const programs = await getPrograms();
-  const hosts = await getHosts();
-  const sponsors = await getSponsors();
+  const [settings, regionalNews, worldNews, programs, hosts, sponsors] = await Promise.all([
+    getSettings(),
+    getNewsByCategory('REGIONAL', 4),
+    getNewsByCategory('MUNDO', 4),
+    getPrograms(),
+    getHosts(),
+    getSponsors(),
+  ]);
 
   return (
     <div className="bg-background min-h-screen text-foreground overflow-x-hidden">
       <div className="pb-24">
-        <HeroSection streamUrl={settings?.streamUrl} />
+        <HeroSection />
         <FeaturedStoriesSection news={regionalNews} title="Destaques na Região." subtitle="Notícias Locais" />
         {worldNews.length > 0 && (
           <FeaturedStoriesSection

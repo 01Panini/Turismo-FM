@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import LiveIndicator from "../ui/LiveIndicator";
@@ -18,6 +19,15 @@ export default function Header() {
             setIsScrolled(false);
         }
     });
+
+    // Lock body scroll while the mobile menu is open
+    useEffect(() => {
+        const original = document.body.style.overflow;
+        document.body.style.overflow = isMobileMenuOpen ? "hidden" : original;
+        return () => {
+            document.body.style.overflow = original;
+        };
+    }, [isMobileMenuOpen]);
 
     interface NavLink {
         name: string;
@@ -48,9 +58,12 @@ export default function Header() {
                 >
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-3" suppressHydrationWarning>
-                        <img
+                        <Image
                             src="/logo.png"
                             alt="Logo Turismo FM"
+                            width={160}
+                            height={48}
+                            priority
                             className="h-10 md:h-12 w-auto object-contain hover:scale-105 transition-transform duration-300 drop-shadow-lg"
                         />
                     </Link>
@@ -76,8 +89,12 @@ export default function Header() {
 
                     {/* Mobile Toggle */}
                     <button
+                        type="button"
                         className="md:hidden text-white"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+                        aria-expanded={isMobileMenuOpen}
+                        aria-controls="mobile-menu"
                     >
                         {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
                     </button>
@@ -86,6 +103,7 @@ export default function Header() {
 
             {/* Mobile Menu */}
             <div
+                id="mobile-menu"
                 className={`fixed inset-0 z-40 bg-background flex flex-col items-center justify-center transition-all duration-500 delay-100 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
             >
                 <div className={`absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[100px] transition-opacity duration-1000 ${isMobileMenuOpen ? "opacity-100" : "opacity-0"}`} />

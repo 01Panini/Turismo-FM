@@ -2,22 +2,13 @@
 
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Play, Pause } from "lucide-react";
-import { useRef, useState } from "react";
-import { useStreamMetadata } from "@/hooks/useStreamMetadata";
+import { Play, Pause, Loader2 } from "lucide-react";
+import { useRef } from "react";
+import { useRadioPlayer } from "@/components/player/RadioPlayerProvider";
 
-type HeroSectionProps = {
-    streamUrl?: string | null;
-};
-
-const DEFAULT_STREAM_URL = "https://stm14.xcast.com.br:11104/"; // Removed semicolon for stability
-
-export default function HeroSection({ streamUrl }: HeroSectionProps) {
-    const resolvedStreamUrl = streamUrl?.trim() || DEFAULT_STREAM_URL;
+export default function HeroSection() {
     const ref = useRef(null);
-    const audioRef = useRef<HTMLAudioElement | null>(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const { songTitle } = useStreamMetadata(resolvedStreamUrl);
+    const { isPlaying, isLoading, songTitle, togglePlay } = useRadioPlayer();
 
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -26,43 +17,6 @@ export default function HeroSection({ streamUrl }: HeroSectionProps) {
 
     const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const yGrid = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-
-    const togglePlay = async () => {
-        if (!audioRef.current) return;
-        
-        if (isPlaying) {
-            audioRef.current.pause();
-            audioRef.current.src = ""; // Clear source to drop connection
-            audioRef.current.load();
-            setIsPlaying(false);
-        } else {
-            try {
-                audioRef.current.src = resolvedStreamUrl;
-                audioRef.current.load();
-                await audioRef.current.play();
-                setIsPlaying(true);
-            } catch (error) {
-                // Retry fallback with semicolon if NotSupportedError
-                if (error instanceof Error && error.name === "NotSupportedError") {
-                    try {
-                        const retryUrl = resolvedStreamUrl.endsWith("/") ? `${resolvedStreamUrl};` : `${resolvedStreamUrl}/;`;
-                        audioRef.current.src = retryUrl;
-                        audioRef.current.load();
-                        await audioRef.current.play();
-                        setIsPlaying(true);
-                        return;
-                    } catch (retryError) {
-                        // Only log if retry also fails
-                        console.error("Audio playback failed after retry", retryError);
-                    }
-                } else {
-                    // Log other types of errors immediately
-                    console.error("Playback failed", error);
-                }
-                setIsPlaying(false);
-            }
-        }
-    };
 
     return (
         <section ref={ref} className="relative min-h-[100dvh] pb-24 w-full flex items-center overflow-hidden bg-[#0B0C10]">
@@ -75,11 +29,6 @@ export default function HeroSection({ streamUrl }: HeroSectionProps) {
 
             {/* Main Content */}
             <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center pt-24 md:pt-32">
-                <audio 
-                    ref={audioRef} 
-                    preload="none" 
-                    crossOrigin="anonymous"
-                />
                 <div className="flex flex-col items-start gap-4 w-full max-w-5xl opacity-0 animate-fadeUp [animation-delay:200ms]">
 
                     {/* Top Label */}
@@ -90,11 +39,11 @@ export default function HeroSection({ streamUrl }: HeroSectionProps) {
 
                     {/* Headline */}
                     <h1 className="flex flex-col font-display font-black leading-[0.9] tracking-tighter w-full uppercase">
-                        <span className="text-white text-[5rem] sm:text-[7rem] md:text-[9rem]">A Voz</span>
+                        <span className="text-white text-[3.25rem] xs:text-[4rem] sm:text-[7rem] md:text-[9rem]">A Voz</span>
                         <div className="relative w-fit">
-                            <span className="text-primary text-[5rem] sm:text-[7rem] md:text-[9rem]">Que Move</span>
+                            <span className="text-primary text-[3.25rem] xs:text-[4rem] sm:text-[7rem] md:text-[9rem]">Que Move</span>
                         </div>
-                        <span className="text-transparent text-outline text-[5rem] sm:text-[7rem] md:text-[9rem]">a Cidade</span>
+                        <span className="text-transparent text-outline text-[3.25rem] xs:text-[4rem] sm:text-[7rem] md:text-[9rem]">a Cidade</span>
                     </h1>
 
                     <p className="text-white/70 text-lg md:text-xl font-light max-w-xl mt-8 leading-relaxed opacity-0 animate-fadeUp [animation-delay:400ms]">
@@ -108,10 +57,11 @@ export default function HeroSection({ streamUrl }: HeroSectionProps) {
                                 <button
                                     type="button"
                                     onClick={togglePlay}
-                                    className="w-14 h-14 z-10 bg-primary text-black rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(255,184,0,0.3)] shrink-0 hover:scale-105 transition-transform duration-300"
+                                    disabled={isLoading}
+                                    className="w-14 h-14 z-10 bg-primary text-black rounded-xl flex items-center justify-center shadow-[0_0_15px_rgba(255,184,0,0.3)] shrink-0 hover:scale-105 transition-transform duration-300 disabled:opacity-70"
                                     aria-label={isPlaying ? "Pausar transmissão" : "Tocar transmissão"}
                                 >
-                                    {isPlaying ? <Pause size={24} className="fill-current" /> : <Play size={24} className="fill-current ml-1" />}
+                                    {isLoading ? <Loader2 size={24} className="animate-spin" /> : isPlaying ? <Pause size={24} className="fill-current" /> : <Play size={24} className="fill-current ml-1" />}
                                 </button>
                                 <div className="flex flex-col min-w-0">
                                     <span className="text-[10px] font-bold tracking-[0.2em] text-primary uppercase mb-1">

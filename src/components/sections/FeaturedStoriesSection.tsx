@@ -17,7 +17,8 @@ export default function FeaturedStoriesSection({ news, title = "Notícias que im
 
     return (
         <section id="noticias" className="py-12 md:py-24 bg-background relative overflow-hidden">
-            {/* Decorative background elements */}           <div className="flex justify-between items-end mb-16">
+          <div className="container mx-auto px-6">
+            <div className="flex justify-between items-end mb-16">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -55,6 +56,8 @@ export default function FeaturedStoriesSection({ news, title = "Notícias que im
                                 <img
                                     src={story.image || "/images/news-placeholder.svg"}
                                     alt={story.title}
+                                    loading={featured ? "eager" : "lazy"}
+                                    decoding="async"
                                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B0C10] via-[#0B0C10]/60 to-transparent" />
@@ -83,6 +86,7 @@ export default function FeaturedStoriesSection({ news, title = "Notícias que im
                     );
                 })}
             </div>
+          </div>
         </section>
     );
 }

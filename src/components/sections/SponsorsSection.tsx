@@ -35,7 +35,7 @@ export default function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
                     {displayed.map((sponsor, i) => (
                         <div key={i} className="flex-shrink-0">
                             {sponsor.logo ? (
-                                <img src={sponsor.logo} alt={sponsor.name} className="h-12 w-auto object-contain opacity-40 hover:opacity-100 transition-opacity" />
+                                <img src={sponsor.logo} alt={sponsor.name} loading="lazy" decoding="async" className="h-12 w-auto object-contain opacity-40 hover:opacity-100 transition-opacity" />
                             ) : (
                                 <span className="text-2xl font-display font-medium text-white/40 hover:text-white transition-colors duration-300">
                                     {sponsor.name}
@@ -47,7 +47,7 @@ export default function SponsorsSection({ sponsors }: { sponsors: Sponsor[] }) {
                     {displayed.map((sponsor, i) => (
                         <div key={`dup-${i}`} className="flex-shrink-0">
                             {sponsor.logo ? (
-                                <img src={sponsor.logo} alt={sponsor.name} className="h-12 w-auto object-contain opacity-40 hover:opacity-100 transition-opacity" />
+                                <img src={sponsor.logo} alt={sponsor.name} loading="lazy" decoding="async" className="h-12 w-auto object-contain opacity-40 hover:opacity-100 transition-opacity" />
                             ) : (
                                 <span className="text-2xl font-display font-medium text-white/40 hover:text-white transition-colors duration-300">
                                     {sponsor.name}

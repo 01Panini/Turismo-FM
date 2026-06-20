@@ -94,6 +94,8 @@ export default function SocialWallSection({ instagramUrl = "https://instagram.co
                         <img
                             src={post.imageUrl}
                             alt={post.caption || "Post do Instagram"}
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 bg-slate-800"
                         />
                         <a href={post.url} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10" aria-label="Abrir post do Instagram"></a>
