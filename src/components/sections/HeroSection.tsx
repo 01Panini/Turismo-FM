@@ -29,7 +29,7 @@ export default function HeroSection() {
             <div className="absolute inset-0 border-t border-white/5 bg-transparent pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noiseFilter\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noiseFilter)\"/%3E%3C/svg%3E')", opacity: 0.1, mixBlendMode: "overlay" }} />
 
             {/* Main Content */}
-            <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-center pt-32 md:pt-40">
+            <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-between md:justify-center pt-32 md:pt-40">
                 <div className="flex flex-col items-start gap-4 w-full max-w-5xl opacity-0 animate-fadeUp [animation-delay:200ms]">
 
                     {/* Top Label */}
@@ -50,9 +50,10 @@ export default function HeroSection() {
                     <p className="text-white/70 text-base md:text-xl font-light max-w-xl mt-6 md:mt-8 leading-relaxed opacity-0 animate-fadeUp [animation-delay:400ms]">
                         Todo mundo ouve, todo mundo gosta. Turismo FM é onde a cidade acontece — ao vivo, 24 horas por dia.
                     </p>
+                </div>
 
-                    {/* Player Actions */}
-                    <div className="mt-8 md:mt-12 w-full flex flex-col xl:flex-row items-start xl:items-center gap-8 opacity-0 animate-fadeUp [animation-delay:600ms]">
+                {/* Player Actions — no mobile ancora logo acima da navbar; no desktop fica junto ao título */}
+                <div className="mt-8 md:mt-12 w-full max-w-5xl flex flex-col xl:flex-row items-start xl:items-center gap-8 opacity-0 animate-fadeUp [animation-delay:600ms]">
                         <div className="relative group p-[1px] rounded-2xl bg-gradient-to-b from-white/10 to-white/5 overflow-hidden w-full max-w-[360px]">
                             <div className="bg-[#111216]/90 backdrop-blur-xl rounded-2xl p-4 flex items-center gap-4 sm:gap-5 w-full overflow-hidden hover:bg-[#18191E]/90 transition-colors">
                                 {/* Desktop: interactive play control (no bottom nav on desktop) */}
@@ -90,7 +91,6 @@ export default function HeroSection() {
                         </div>
                     </div>
                 </div>
-            </div>
 
             {/* Scroll Indicator Line */}
             <div className="absolute left-[8%] md:left-[5%] top-1/2 -translate-y-1/2 h-32 w-[2px] bg-white/5 hidden md:block">
