@@ -14,8 +14,13 @@ const fallbackPrograms: Program[] = [
     { id: '6', title: "Love Songs", startTime: "22:00", endTime: "05:00", hostName: "Turismo FM", dayOfWeek: 1, live: false },
 ];
 
+const daysMap = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+function getDayLabel(dayOfWeek: number): string {
+    return dayOfWeek === -1 ? 'Todos os dias' : daysMap[dayOfWeek];
+}
+
 export default function RadioProgramsSection({ programs }: { programs: Program[] }) {
-    const daysMap = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
     const displayedPrograms = programs.length > 0 ? programs : fallbackPrograms;
 
     return (
@@ -56,7 +61,7 @@ export default function RadioProgramsSection({ programs }: { programs: Program[]
                             <div className="flex flex-col gap-3 text-white/70">
                                 <div className="flex items-center gap-3">
                                     <Clock size={18} className="text-primary" />
-                                    <span className="text-sm font-medium">{daysMap[prog.dayOfWeek]} • {prog.startTime} - {prog.endTime}</span>
+                                    <span className="text-sm font-medium">{getDayLabel(prog.dayOfWeek)} • {prog.startTime} - {prog.endTime}</span>
                                 </div>
                                 <div className="flex items-center gap-3">
                                     <User size={18} className="text-primary" />

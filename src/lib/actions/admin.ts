@@ -92,6 +92,27 @@ export async function deleteSponsor(id: string): Promise<void> {
   revalidatePath('/admin/sponsors');
 }
 
+export async function updateSponsor(id: string, formData: FormData): Promise<void> {
+  const name = getRequiredTextValue(formData, 'name');
+  const logo = getOptionalTextValue(formData, 'logo');
+  const website = getOptionalTextValue(formData, 'website');
+
+  if (!name) {
+    return;
+  }
+
+  try {
+    await prisma.sponsor.update({
+      where: { id },
+      data: { name, logo, website },
+    });
+  } catch (error) {
+    console.warn('DB error on updateSponsor - ignoring update', error);
+  }
+
+  revalidatePath('/');
+  revalidatePath('/admin/sponsors');
+}
 // ----- Host Actions -----
 export async function getHosts(): Promise<Host[]> {
   try {
@@ -134,6 +155,27 @@ export async function deleteHost(id: string): Promise<void> {
   revalidatePath('/admin/hosts');
 }
 
+export async function updateHost(id: string, formData: FormData): Promise<void> {
+  const name = getRequiredTextValue(formData, 'name');
+  const bio = getOptionalTextValue(formData, 'bio');
+  const avatar = getOptionalTextValue(formData, 'avatar');
+
+  if (!name) {
+    return;
+  }
+
+  try {
+    await prisma.host.update({
+      where: { id },
+      data: { name, bio, avatar },
+    });
+  } catch (error) {
+    console.warn('DB error on updateHost - ignoring update', error);
+  }
+
+  revalidatePath('/');
+  revalidatePath('/admin/hosts');
+}
 // ----- Program Actions -----
 export async function createProgram(formData: FormData): Promise<void> {
   const title = formData.get('title') as string;
@@ -141,6 +183,10 @@ export async function createProgram(formData: FormData): Promise<void> {
   const startTime = formData.get('startTime') as string;
   const endTime = formData.get('endTime') as string;
   const hostName = formData.get('hostName') as string;
+
+  if (!title || !hostName || !startTime || !endTime || !Number.isInteger(dayOfWeek) || dayOfWeek < -1 || dayOfWeek > 6) {
+    return;
+  }
 
   try {
     await prisma.program.create({
@@ -164,6 +210,29 @@ export async function deleteProgram(id: string): Promise<void> {
   revalidatePath('/admin/programming');
 }
 
+export async function updateProgram(id: string, formData: FormData): Promise<void> {
+  const title = getRequiredTextValue(formData, 'title');
+  const hostName = getRequiredTextValue(formData, 'hostName');
+  const startTime = getRequiredTextValue(formData, 'startTime');
+  const endTime = getRequiredTextValue(formData, 'endTime');
+  const dayOfWeek = Number.parseInt(getRequiredTextValue(formData, 'dayOfWeek'), 10);
+
+  if (!title || !hostName || !startTime || !endTime || !Number.isInteger(dayOfWeek) || dayOfWeek < -1 || dayOfWeek > 6) {
+    return;
+  }
+
+  try {
+    await prisma.program.update({
+      where: { id },
+      data: { title, hostName, startTime, endTime, dayOfWeek },
+    });
+  } catch (error) {
+    console.warn('DB error on updateProgram - ignoring update', error);
+  }
+
+  revalidatePath('/');
+  revalidatePath('/admin/programming');
+}
 // ----- News Actions -----
 export async function getNews(limit: number = 10): Promise<NewsItem[]> {
   try {
@@ -211,5 +280,26 @@ export async function deleteRssFeed(id: string): Promise<void> {
   } catch (error) {
     console.warn("DB error on deleteRssFeed - ignoring update", error);
   }
+  revalidatePath('/admin/rss');
+}
+export async function updateRssFeed(id: string, formData: FormData): Promise<void> {
+  const name = getRequiredTextValue(formData, 'name');
+  const url = getRequiredTextValue(formData, 'url');
+  const category = getRequiredTextValue(formData, 'category');
+  const isActive = getRequiredTextValue(formData, 'isActive') === 'true';
+
+  if (!name || !url || !['REGIONAL', 'MUNDO'].includes(category)) {
+    return;
+  }
+
+  try {
+    await prisma.rssFeed.update({
+      where: { id },
+      data: { name, url, category, isActive },
+    });
+  } catch (error) {
+    console.warn('DB error on updateRssFeed - ignoring update', error);
+  }
+
   revalidatePath('/admin/rss');
 }

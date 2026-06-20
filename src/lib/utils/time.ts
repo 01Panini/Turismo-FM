@@ -8,7 +8,7 @@ export function getCurrentProgram(programs: { dayOfWeek: number; startTime: stri
   const currentTotalMinutes = currentHour * 60 + currentMinute;
 
   // Filter programs playing today
-  const todaysPrograms = programs.filter(p => p.dayOfWeek === currentDay);
+  const todaysPrograms = programs.filter(p => p.dayOfWeek === -1 || p.dayOfWeek === currentDay);
 
   for (const program of todaysPrograms) {
     const [startH, startM] = program.startTime.split(':').map(Number);

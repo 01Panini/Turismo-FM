@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import { loginAction } from '@/lib/actions/auth';
 import { useRouter } from 'next/navigation';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function AdminLogin() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -64,11 +66,25 @@ export default function AdminLogin() {
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
+                    autoComplete="current-password"
                     required
-                    className="appearance-none rounded-xl relative block w-full px-5 py-4 bg-white/5 border border-white/10 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all sm:text-sm backdrop-blur-sm"
+                    className="appearance-none rounded-xl relative block w-full pl-5 pr-14 py-4 bg-white/5 border border-white/10 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all sm:text-sm backdrop-blur-sm"
                     placeholder="Enter Admin Password"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((visible) => !visible)}
+                    aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                    aria-pressed={showPassword}
+                    className="absolute inset-y-0 right-0 flex w-14 items-center justify-center text-gray-400 transition-colors hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 rounded-r-xl"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5" aria-hidden="true" />
+                    ) : (
+                      <Eye className="h-5 w-5" aria-hidden="true" />
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
