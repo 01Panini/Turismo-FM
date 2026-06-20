@@ -40,19 +40,19 @@ export default function HeroSection() {
 
                     {/* Headline */}
                     <h1 className="flex flex-col font-display font-black leading-[0.9] tracking-tighter w-full uppercase">
-                        <span className="text-white text-[3.25rem] xs:text-[4rem] sm:text-[7rem] md:text-[9rem]">A Voz</span>
+                        <span className="text-white text-[2.75rem] xs:text-[3.5rem] sm:text-[7rem] md:text-[9rem]">A Voz</span>
                         <div className="relative w-fit">
-                            <span className="text-primary text-[3.25rem] xs:text-[4rem] sm:text-[7rem] md:text-[9rem]">Que Move</span>
+                            <span className="text-primary text-[2.75rem] xs:text-[3.5rem] sm:text-[7rem] md:text-[9rem]">Que Move</span>
                         </div>
-                        <span className="text-transparent text-outline text-[3.25rem] xs:text-[4rem] sm:text-[7rem] md:text-[9rem]">a Cidade</span>
+                        <span className="text-transparent text-outline text-[2.75rem] xs:text-[3.5rem] sm:text-[7rem] md:text-[9rem]">a Cidade</span>
                     </h1>
 
-                    <p className="text-white/70 text-lg md:text-xl font-light max-w-xl mt-8 leading-relaxed opacity-0 animate-fadeUp [animation-delay:400ms]">
+                    <p className="text-white/70 text-base md:text-xl font-light max-w-xl mt-6 md:mt-8 leading-relaxed opacity-0 animate-fadeUp [animation-delay:400ms]">
                         Todo mundo ouve, todo mundo gosta. Turismo FM é onde a cidade acontece — ao vivo, 24 horas por dia.
                     </p>
 
                     {/* Player Actions */}
-                    <div className="mt-12 w-full flex flex-col xl:flex-row items-start xl:items-center gap-8 opacity-0 animate-fadeUp [animation-delay:600ms]">
+                    <div className="mt-8 md:mt-12 w-full flex flex-col xl:flex-row items-start xl:items-center gap-8 opacity-0 animate-fadeUp [animation-delay:600ms]">
                         <div className="relative group p-[1px] rounded-2xl bg-gradient-to-b from-white/10 to-white/5 overflow-hidden w-full max-w-[360px]">
                             <div className="bg-[#111216]/90 backdrop-blur-xl rounded-2xl p-4 flex items-center gap-4 sm:gap-5 w-full overflow-hidden hover:bg-[#18191E]/90 transition-colors">
                                 {/* Desktop: interactive play control (no bottom nav on desktop) */}
